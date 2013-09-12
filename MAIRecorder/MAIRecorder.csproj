@@ -103,10 +103,10 @@
     <Compile Include="source\ChannelConfiguration\FormConfigPeriodCounter.Designer.cs">
       <DependentUpon>FormConfigPeriodCounter.cs</DependentUpon>
     </Compile>
-    <Compile Include="source\AudioCardWindow.cs">
+    <Compile Include="source\CardWindows\AudioCardWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="source\AudioCardWindow.Designer.cs">
+    <Compile Include="source\CardWindows\AudioCardWindow.Designer.cs">
       <DependentUpon>AudioCardWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="source\ChannelConfiguration\ADChannel.cs">
@@ -127,10 +127,10 @@
     <Compile Include="source\ChannelConfiguration\ADSetup.Designer.cs">
       <DependentUpon>ADSetup.cs</DependentUpon>
     </Compile>
-    <Compile Include="source\CardWindow.cs">
+    <Compile Include="source\CardWindows\CardWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="source\CardWindow.Designer.cs">
+    <Compile Include="source\CardWindows\CardWindow.Designer.cs">
       <DependentUpon>CardWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="source\ChannelConfiguration\CounterConfigPanelFrequency.cs">
@@ -187,7 +187,6 @@
     <Compile Include="source\ChannelConfiguration\DIOChannel.Designer.cs">
       <DependentUpon>DIOChannel.cs</DependentUpon>
     </Compile>
-    <Compile Include="source\DataGridPrinter.cs" />
     <Compile Include="source\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -248,10 +247,10 @@
     <Compile Include="source\DSTargetForms\FormDSTargetDB.Designer.cs">
       <DependentUpon>FormDSTargetDB.cs</DependentUpon>
     </Compile>
-    <Compile Include="source\FormMeasureAD.cs">
+    <Compile Include="source\MeasureWindows\FormMeasureAD.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="source\FormMeasureAD.Designer.cs">
+    <Compile Include="source\MeasureWindows\FormMeasureAD.Designer.cs">
       <DependentUpon>FormMeasureAD.cs</DependentUpon>
     </Compile>
     <Compile Include="source\ChannelConfiguration\ICounterConfigPanel.cs" />
@@ -261,22 +260,22 @@
     <Compile Include="source\ChannelConfiguration\ADSetupIEPE.Designer.cs">
       <DependentUpon>ADSetupIEPE.cs</DependentUpon>
     </Compile>
-    <Compile Include="source\FormMeasureCT.cs">
+    <Compile Include="source\MeasureWindows\FormMeasureCT.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="source\FormMeasureCT.Designer.cs">
+    <Compile Include="source\MeasureWindows\FormMeasureCT.Designer.cs">
       <DependentUpon>FormMeasureCT.cs</DependentUpon>
     </Compile>
-    <Compile Include="source\FormOutputWaveForms.cs">
+    <Compile Include="source\MeasureWindows\FormOutputWaveForms.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="source\FormOutputWaveForms.Designer.cs">
+    <Compile Include="source\MeasureWindows\FormOutputWaveForms.Designer.cs">
       <DependentUpon>FormOutputWaveForms.cs</DependentUpon>
     </Compile>
-    <Compile Include="source\FormOutput_PWM_FM.cs">
+    <Compile Include="source\MeasureWindows\FormOutput_PWM_FM.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="source\FormOutput_PWM_FM.Designer.cs">
+    <Compile Include="source\MeasureWindows\FormOutput_PWM_FM.Designer.cs">
       <DependentUpon>FormOutput_PWM_FM.cs</DependentUpon>
     </Compile>
     <Compile Include="source\Program.cs" />
@@ -287,7 +286,7 @@
     <EmbeddedResource Include="source\ChannelConfiguration\FormConfigPeriodCounter.resx">
       <DependentUpon>FormConfigPeriodCounter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="source\AudioCardWindow.resx">
+    <EmbeddedResource Include="source\CardWindows\AudioCardWindow.resx">
       <DependentUpon>AudioCardWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="source\ChannelConfiguration\ADChannel.resx">
@@ -302,7 +301,7 @@
       <DependentUpon>ADSetup.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="source\CardWindow.resx">
+    <EmbeddedResource Include="source\CardWindows\CardWindow.resx">
       <DependentUpon>CardWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -386,17 +385,17 @@
       <DependentUpon>FormDSTargetCSV.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="source\FormMeasureAD.resx">
+    <EmbeddedResource Include="source\MeasureWindows\FormMeasureAD.resx">
       <DependentUpon>FormMeasureAD.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="source\FormMeasureCT.resx">
+    <EmbeddedResource Include="source\MeasureWindows\FormMeasureCT.resx">
       <DependentUpon>FormMeasureCT.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="source\FormOutputWaveForms.resx">
+    <EmbeddedResource Include="source\MeasureWindows\FormOutputWaveForms.resx">
       <DependentUpon>FormOutputWaveForms.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="source\FormOutput_PWM_FM.resx">
+    <EmbeddedResource Include="source\MeasureWindows\FormOutput_PWM_FM.resx">
       <DependentUpon>FormOutput_PWM_FM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
@@ -455,7 +454,7 @@
     <Compile Include="source\ChannelMeasurement\UCOutputSettingsPWMChannel.Designer.cs">
       <DependentUpon>UCOutputSettingsPWMChannel.cs</DependentUpon>
     </Compile>
-    <Compile Include="TAFFMatReader.cs" />
+    <Compile Include="source\TAFFMatReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Changelog.txt" />

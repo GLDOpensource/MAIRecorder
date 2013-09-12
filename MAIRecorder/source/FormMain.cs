@@ -142,6 +142,8 @@ namespace MAIRecorder {
 
         private string ToText(DataTable AITable, string AIColumnSeparator) {
             StringBuilder sb = new StringBuilder();
+            if (AITable == null)
+                return "";
             foreach (DataRow r in AITable.Rows) {
 
                 for (int i = 0; i < AITable.Columns.Count; i++) {
@@ -161,16 +163,16 @@ namespace MAIRecorder {
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e) {
-            DataGridPrinter dgp = new DataGridPrinter(dgvCardProperties);
+            //DataGridPrinter dgp = new DataGridPrinter(dgvCardProperties);
           
-            dgp.HeaderText = "Some text";
-            dgp.HeaderHeightPercent = 10;
-            dgp.FooterHeightPercent = 5;
-            dgp.InterSectionSpacingPercent = 2;
+            //dgp.HeaderText = "Some text";
+            //dgp.HeaderHeightPercent = 10;
+            //dgp.FooterHeightPercent = 5;
+            //dgp.InterSectionSpacingPercent = 2;
       
-            printPreviewDialog1.Document = dgp.PrintDocument;
-            if(printPreviewDialog1.ShowDialog() == DialogResult.OK) 
-                dgp.Print();
+            //printPreviewDialog1.Document = dgp.PrintDocument;
+            //if(printPreviewDialog1.ShowDialog() == DialogResult.OK) 
+            //    dgp.Print();
 
         }
 
