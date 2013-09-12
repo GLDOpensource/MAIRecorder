@@ -1,0 +1,8 @@
+﻿Version		Datum		Autor		Kommentar
+1.0.1		24.06.2013  F.Mensing   erstellt; Alle Basis-Devicefunktionen enthalten, jetzt testen !
+1.0.2		28.06.2013  F.Mensing   AudioCardForm Entworfen;
+1.0.3		01.07.2013  F.Mensing   AudioCardForm Output+Counter;
+1.0.4		02.07.2013  F.Mensing   AudioCardForm Output + File oin/out. Problem: datasink performance (hier gleichzeitiges schreiben und ausgeben verbieten ?);
+1.0.5		02.07.2013  F.Mensing   CardForm-gestartete Messungen: Tsts und Bugfixes; CardForm: Resize AD und Da Bereich on Show; 
+1.0.6		02.08.2013  F.Mensing   Form1 Infos Frontend, Firmware, altera wie bei Kleines Testprogramm; 
+

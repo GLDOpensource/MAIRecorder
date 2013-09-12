@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6350525F-FD17-4797-A8CA-6EEB1A45AC32}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MAIRecorder</RootNamespace>
+    <AssemblyName>MAIRecorder</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ApplicationIcon>Goldicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MAI.Controls.Configuration.NET20, Version=1.0.13.19877, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dependencies\MAI.Controls.Configuration.NET20.dll</HintPath>
+    </Reference>
+    <Reference Include="MAI.Controls.Images, Version=1.0.1.27295, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dependencies\MAI.Controls.Images.dll</HintPath>
+    </Reference>
+    <Reference Include="MAI_v2_ExtensionDAQ_NET20_DLL, Version=1.0.30.19880, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dependencies\MAI_v2_ExtensionDAQ_NET20_DLL.dll</HintPath>
+    </Reference>
+    <Reference Include="MAI_v2_NET20_DLL, Version=1.0.179.30504, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dependencies\MAI_v2_NET20_DLL.dll</HintPath>
+    </Reference>
+    <Reference Include="MemoryMappedFile_NET20_DLL, Version=1.0.2.19798, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dependencies\MemoryMappedFile_NET20_DLL.dll</HintPath>
+    </Reference>
+    <Reference Include="NI_DDC_NET20_DLL, Version=1.0.3.19798, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dependencies\NI_DDC_NET20_DLL.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="source\ChannelConfiguration\FormChooseOutputWave.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\FormChooseOutputWave.Designer.cs">
+      <DependentUpon>FormChooseOutputWave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\FormConfigPeriodCounter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\FormConfigPeriodCounter.Designer.cs">
+      <DependentUpon>FormConfigPeriodCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\AudioCardWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\AudioCardWindow.Designer.cs">
+      <DependentUpon>AudioCardWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\ADChannel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\ADChannel.Designer.cs">
+      <DependentUpon>ADChannel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\ADChannelSmall.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\ADChannelSmall.Designer.cs">
+      <DependentUpon>ADChannelSmall.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\ADSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\ADSetup.Designer.cs">
+      <DependentUpon>ADSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\CardWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\CardWindow.Designer.cs">
+      <DependentUpon>CardWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelFrequency.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelFrequency.Designer.cs">
+      <DependentUpon>CounterConfigPanelFrequency.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelImpulse.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelImpulse.Designer.cs">
+      <DependentUpon>CounterConfigPanelImpulse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelIncExtTimestamp.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelIncExtTimestamp.Designer.cs">
+      <DependentUpon>CounterConfigPanelIncExtTimestamp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelIncremental.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelIncremental.Designer.cs">
+      <DependentUpon>CounterConfigPanelIncremental.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelPeriodPulsewidth.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelPeriodPulsewidth.Designer.cs">
+      <DependentUpon>CounterConfigPanelPeriodPulsewidth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelUpDown.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CounterConfigPanelUpDown.Designer.cs">
+      <DependentUpon>CounterConfigPanelUpDown.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CTChannel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CTChannel.Designer.cs">
+      <DependentUpon>CTChannel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\DAChannelSmall.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\DAChannelSmall.Designer.cs">
+      <DependentUpon>DAChannelSmall.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\DIOChannel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\DIOChannel.Designer.cs">
+      <DependentUpon>DIOChannel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\DataGridPrinter.cs" />
+    <Compile Include="source\FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\FormAddETH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\FormAddETH.Designer.cs">
+      <DependentUpon>FormAddETH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CTSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\CTSetup.Designer.cs">
+      <DependentUpon>CTSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetConfigBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetConfigBase.Designer.cs">
+      <DependentUpon>FormDSTargetConfigBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetCSV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetCSV.Designer.cs">
+      <DependentUpon>FormDSTargetCSV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetRAW.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetRAW.Designer.cs">
+      <DependentUpon>FormDSTargetRAW.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetWAV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetWAV.Designer.cs">
+      <DependentUpon>FormDSTargetWAV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetTDMS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetTDMS.Designer.cs">
+      <DependentUpon>FormDSTargetTDMS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetTAFFMAT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetTAFFMAT.Designer.cs">
+      <DependentUpon>FormDSTargetTAFFMAT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\DSTargetForms\FormDSTargetDB.Designer.cs">
+      <DependentUpon>FormDSTargetDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\FormMeasureAD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\FormMeasureAD.Designer.cs">
+      <DependentUpon>FormMeasureAD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\ICounterConfigPanel.cs" />
+    <Compile Include="source\ChannelConfiguration\ADSetupIEPE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\ADSetupIEPE.Designer.cs">
+      <DependentUpon>ADSetupIEPE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\FormMeasureCT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\FormMeasureCT.Designer.cs">
+      <DependentUpon>FormMeasureCT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\FormOutputWaveForms.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\FormOutputWaveForms.Designer.cs">
+      <DependentUpon>FormOutputWaveForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\FormOutput_PWM_FM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="source\FormOutput_PWM_FM.Designer.cs">
+      <DependentUpon>FormOutput_PWM_FM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="source\ChannelConfiguration\FormChooseOutputWave.resx">
+      <DependentUpon>FormChooseOutputWave.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\FormConfigPeriodCounter.resx">
+      <DependentUpon>FormConfigPeriodCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\AudioCardWindow.resx">
+      <DependentUpon>AudioCardWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\ADChannel.resx">
+      <DependentUpon>ADChannel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\ADChannelSmall.resx">
+      <DependentUpon>ADChannelSmall.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\ADSetup.resx">
+      <DependentUpon>ADSetup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\CardWindow.resx">
+      <DependentUpon>CardWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\CounterConfigPanelFrequency.resx">
+      <DependentUpon>CounterConfigPanelFrequency.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\CounterConfigPanelImpulse.resx">
+      <DependentUpon>CounterConfigPanelImpulse.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\CounterConfigPanelIncExtTimestamp.resx">
+      <DependentUpon>CounterConfigPanelIncExtTimestamp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\CounterConfigPanelIncremental.resx">
+      <DependentUpon>CounterConfigPanelIncremental.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\CounterConfigPanelPeriodPulsewidth.resx">
+      <DependentUpon>CounterConfigPanelPeriodPulsewidth.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\CounterConfigPanelUpDown.resx">
+      <DependentUpon>CounterConfigPanelUpDown.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\CTChannel.resx">
+      <DependentUpon>CTChannel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\DAChannelSmall.resx">
+      <DependentUpon>DAChannelSmall.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\DIOChannel.resx">
+      <DependentUpon>DIOChannel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\DSTargetForms\FormDSTargetDB.resx">
+      <DependentUpon>FormDSTargetDB.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\DSTargetForms\FormDSTargetRAW.resx">
+      <DependentUpon>FormDSTargetRAW.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\DSTargetForms\FormDSTargetTAFFMAT.resx">
+      <DependentUpon>FormDSTargetTAFFMAT.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\DSTargetForms\FormDSTargetTDMS.resx">
+      <DependentUpon>FormDSTargetTDMS.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\DSTargetForms\FormDSTargetWAV.resx">
+      <DependentUpon>FormDSTargetWAV.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\FormAddETH.resx">
+      <DependentUpon>FormAddETH.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\CTSetup.resx">
+      <DependentUpon>CTSetup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\ADSetupIEPE.resx">
+      <DependentUpon>ADSetupIEPE.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\DSTargetForms\FormDSTargetConfigBase.resx">
+      <DependentUpon>FormDSTargetConfigBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\DSTargetForms\FormDSTargetCSV.resx">
+      <DependentUpon>FormDSTargetCSV.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\FormMeasureAD.resx">
+      <DependentUpon>FormMeasureAD.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\FormMeasureCT.resx">
+      <DependentUpon>FormMeasureCT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\FormOutputWaveForms.resx">
+      <DependentUpon>FormOutputWaveForms.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\FormOutput_PWM_FM.resx">
+      <DependentUpon>FormOutput_PWM_FM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelConfiguration\PWMChannel.resx">
+      <DependentUpon>PWMChannel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelMeasurement\UCConterValue.resx">
+      <DependentUpon>UCConterValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelMeasurement\UCFuncGenChan.resx">
+      <DependentUpon>UCFuncGenChan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="source\ChannelMeasurement\UCOutputSettingsPWMChannel.resx">
+      <DependentUpon>UCOutputSettingsPWMChannel.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\PWMChannel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelConfiguration\PWMChannel.Designer.cs">
+      <DependentUpon>PWMChannel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelMeasurement\UCConterValue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelMeasurement\UCConterValue.Designer.cs">
+      <DependentUpon>UCConterValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelMeasurement\UCFuncGenChan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelMeasurement\UCFuncGenChan.Designer.cs">
+      <DependentUpon>UCFuncGenChan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\ChannelMeasurement\UCOutputSettingsPWMChannel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="source\ChannelMeasurement\UCOutputSettingsPWMChannel.Designer.cs">
+      <DependentUpon>UCOutputSettingsPWMChannel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TAFFMatReader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Changelog.txt" />
+    <Content Include="Goldicon.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
