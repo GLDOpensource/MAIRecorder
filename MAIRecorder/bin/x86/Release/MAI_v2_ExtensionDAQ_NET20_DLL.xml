@@ -1,0 +1,656 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        "MAI_v2_ExtensionDAQ_NET20_DLL"
+    </assembly>
+    <members>
+        <member name="P:Goldammer.MAIExtensions.DAQ.MAIRAWDataReader.CT">
+            <summary>	Gibt die enthaltenen MAIRAWDataReaderChannelCT zurück (einen pro aufgezeichnetem CT Messkanal). </summary>
+            <value>	MAIRAWDataReaderChannelCT Array. </value>
+            <summaryE>	returns the containing MAIRAWDataReaderChannelCTs (one for each CT measurement channel). </summaryE>
+            <valueE>	MAIRAWDataReaderChannelCT array. </valueE>
+        </member>
+        <member name="P:Goldammer.MAIExtensions.DAQ.MAIRAWDataReader.AD">
+            <summary>	Gibt die enthaltenen MAIRAWDataReaderChannelAD zurück (einen pro aufgezeichnetem AD Messkanal). </summary>
+            <value>	MAIRAWDataReaderChannelAD Array. </value>
+            <summaryE>	returns the containing MAIRAWDataReaderChannelADs (one for each AD measurement channel). </summaryE>
+            <valueE>	MAIRAWDataReaderChannelAD array. </valueE>
+        </member>
+        <member name="P:Goldammer.MAIExtensions.DAQ.MAIRAWDataReader.ContainsTTLData">
+            <summary>	Gibt an, ob die Datei TTL Daten enthält. </summary>
+            <value>	wenn [true]: die Datei enthält TTL Daten . </value>
+            <summaryE>	indicates if the file contains TTL Data. </summaryE>
+            <valueE>if [true]: the file contains TTL Data. </valueE>
+        </member>
+        <member name="P:Goldammer.MAIExtensions.DAQ.MAIRAWDataReader.CTChannelCount">
+            <summary>	Gibt die Anzahl der CT Kanäle zurück </summary>
+            <value>	Anzahl der CT Kanäle. </value>
+            <summaryE>	Gets the number of CT channels. </summaryE>
+            <valueE>	The number of CT channels. </valueE>
+        </member>
+        <member name="P:Goldammer.MAIExtensions.DAQ.MAIRAWDataReader.ADChannelCount">
+            <summary>	Gibt die Anzahl der AD Kanäle zurück. </summary>
+            <value>	Anzahl der AD Kanäle. </value>
+            <summaryE>	Gets the number of AD channels. </summaryE>
+            <valueE>	The number of AD channels. </valueE>
+        </member>
+        <member name="P:Goldammer.MAIExtensions.DAQ.MAIRAWDataReader.BurstCount">
+            <summary>	Gibt die Anzahl der Messbursts zurück. </summary>
+            <value>	Anzahl der Messbursts. </value>
+            <summaryE>	Gets the number of bursts. </summaryE>
+            <valueE>	The number of bursts. </valueE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIRAWDataReader.#ctor(System.String)">
+            <summary>	Konstruktor. </summary>
+            <summaryE>	Constructor. </summaryE>
+            <param name="AIFilename"> Dateiname der RAW Datei. </param>
+            <paramE name="AIFilename">	filename of the RAW file. </paramE>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIRAWDataReader">
+            <summary>	Erlaubt das Einlesen der von einem MAIDatasinkTarget RAW geschriebenen Dateien in eigene dotNET
+			Programme.  </summary>
+            <summaryE>	allows to read the data that has been recorded by a MAIDatasinkTarget RAW into custom dotNET programs.  </summaryE>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIRAWDataReaderChannelCT">
+            <summary> MAIRAWDataReaderChannel für CT Daten  </summary>
+            <summaryE> MAIRAWDataReaderChannel for CT data  </summaryE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIRAWDataReaderChannelAD.ReadDouble(System.UInt64)">
+            <summary>	Liest einen Double Wert aus einem Burst. </summary>
+            <returns>	 ein Double Wert. </returns>
+            <summaryE>	reads a Double value. </summaryE>
+            <returnsE> a Double value . </returnsE>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIRAWDataReaderChannelAD">
+            <summary> MAIRAWDataReaderChannel für AD Daten  </summary>
+            <summaryE> MAIRAWDataReaderChannel for AD data  </summaryE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIRAWDataReaderChannelBase.ReadUInt32(System.UInt64)">
+            <summary>	Liest einen UInt32 Wert aus einem Burst. </summary>
+            <returns>	 ein UInt32 Wert. </returns>
+            <summary>	reads a UInt32 value. </summary>
+            <returns> a UInt32 value . </returns>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIRAWDataReaderChannelBase">
+            <summary>	Basisklasse für alle MAIRAWDataReaderChannel.  </summary>
+            <summary>	base class for all MAIRAWDataReaderChannels.  </summary>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCXi.SetTargetChannelForTTLData(Xi.Contracts.Data.InstanceId)">
+            <summary>	Verbindet die TTL Daten mit einem Tag auf dem OPC Server innerhalb einer Tag-Gruppe. </summary>
+            <param name="DataTag"> Tag, das beschrieben werden soll. </param>
+            <summaryE>	Adds a link between the TTL Data and a tag from a server's tag group. </summaryE>
+            <paramE name="DataTag"> tag to write into. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCXi.AddTargetForChannel(Goldammer.MAIMeasurementChannelCT,Xi.Contracts.Data.InstanceId,Xi.Contracts.Data.InstanceId)">
+            <summary>	Verbindet  einen Messkanal mit Tags auf dem OPC Server innerhalb einer Tag-Gruppe. </summary>
+            <param name="MeasurementChannel">	Messkanal. </param>
+            <param name="ScaledDataTag"> Tag, das mit skalierten Daten beschrieben werden soll  (null ist erlaubt). </param>
+            <param name="RawDataTag">  Tag, das mit Rohdaten beschrieben werden soll  (null ist erlaubt). </param>
+            <summaryE>	Adds a link between a measurement channel and  an OPC server's tags. </summaryE>
+            <paramE name="MeasurementChannel"> the measurement channel. </paramE>
+            <paramE name="ScaledDataTag"> scaled data tag (null is allowed). </paramE>
+            <paramE name="RawDataTag">  raw data tag  (null is allowed). </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCXi.AddTargetForChannel(Goldammer.MAIMeasurementChannelAD,Xi.Contracts.Data.InstanceId,Xi.Contracts.Data.InstanceId)">
+            <summary>	Verbindet  einen Messkanal mit Tags auf dem OPC Server innerhalb einer Tag-Gruppe. </summary>
+            <param name="MeasurementChannel">	Messkanal. </param>
+            <param name="ScaledDataTag"> Tag, das mit skalierten Daten beschrieben werden soll  (null ist erlaubt). </param>
+            <param name="RawDataTag">  Tag, das mit Rohdaten beschrieben werden soll  (null ist erlaubt). </param>
+            <summaryE>	Adds a link between a measurement channel and  an OPC server's tags. </summaryE>
+            <paramE name="MeasurementChannel"> the measurement channel. </paramE>
+            <paramE name="ScaledDataTag"> scaled data tag (null is allowed). </paramE>
+            <paramE name="RawDataTag">  raw data tag  (null is allowed). </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCXi.#ctor(Xi.Client.Base.API.IXiContext,System.UInt32)">
+            <summary>	Constructor. </summary>
+            <param name="OPCServer"> XiContext des OPC Xi Servers, zu dem die Daten gesendet werden sollen. Der Endpunkt IWrite und ResourceManagement müssen bereits geöffnet sein. </param>
+            <param name="AIUpdateRate">	Update Rate. </param>
+            <summaryE>	Constructor. </summaryE>
+            <paramE name="OPCServer"> XiContext of the OPC DA server to write data to. The endpoints IWrite and ResourceManagement have to be connected.</paramE>
+            <paramE name="AIUpdateRate"> update rate. </paramE>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCXi">
+            <summary>	Verbindet die Messkanäle  mit Tags des OPC Servers.  </summary>
+            <summary>	determines a mapping for the measurement channels and an OPC server's tags.  </summary>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetSQLCeFile(System.String)">
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in eine MS SQL Ce Datei schreibt. </summary>
+            <param name="Filename">	 Dateiname der zu erzeugenden Datei. </param>
+            <returns>	DataSink für Datenbankzugriffe. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into a MS SQL Ce file. </summaryE>
+            <paramE name="Filename"> name of the file to create. </paramE>
+            <returnsE>	SQL data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetSQLServer(System.Data.SqlClient.SqlConnection,System.String,System.String,System.String,System.Boolean)">
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in eine MS SQLServer Datenbank schreibt. </summary>
+            <param name="AIConnection">	 SQLConnection zu der zu beschreibenden Datenbank. </param>
+            <param name="AITablenameMeasurementInfo"> Name der Tabelle für die Metadaten der Messung (Start/Länge etc.). </param>
+            <param name="AITablenameMeasureData">	Name der Tabelle für die Messdaten. </param>
+            <param name="AITableNameChannelInfos">	Name der Tabelle für die Beschreibung der Messkanäle. </param>
+            <param name="AIDropExisting">	wenn [true]: bereits existierende Tabellen gleichen Namens werden gelöscht. </param>
+            <returns>	DataSink für Datenbankzugriffe. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into a MS SQLServere Database. </summaryE>
+            <paramE name="AIConnection"> SQLConnection to the databese. </paramE>
+            <paramE name="AITablenameMeasurementInfo"> tablename measurements meta data (Start/Length etc.). </paramE>
+            <paramE name="AITablenameMeasureData">	tablename measuredata. </paramE>
+            <paramE name="AITableNameChannelInfos">	tablename measurement channel informations. </paramE>
+            <paramE name="AIDropExisting">	wenn [true]: bereits existierende Tabellen gleichen Namens werden gelöscht. </paramE>
+            <returnsE>	SQL data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetWAV(System.Collections.Generic.Dictionary`2{Goldammer.MAIMeasurementChannelAD,System.String})">
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in je eine WAV Datei (Mono) pro Messkanal schreibt. </summary>
+            <param name="AIFileNames"> Dictionary mit der Zuordnung der Messkanäle zu den zu erzeugenden Dateinamen</param>
+            <returns>	WAV DataSink. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into one WAV file (mono) for each Measuerment Channel. </summaryE>
+            <paramE name="AIFileNames"> Dictionary, that maps the Measurement channels to the Filenames to create. </paramE>
+            <returnsE>	WAV data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetWAV(System.String,System.UInt64)">
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in je eine WAV Datei (Mono) pro Messkanal schreibt. </summary>
+            <param name="AIFilenamesPrefix"> Dateiname (ohne .WAV). </param>
+            <param name="AIMaximumFilesize"> maximale Dateigröße für eine Datei in Bytes. </param>
+            <returns>	WAV DataSink. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into one WAV file (mono) for each Measuerment Channel. </summaryE>
+            <paramE name="AIFilenamesPrefix">	filename (omitting .WAV). </paramE>
+            <paramE name="AIMaximumFilesize"> maximum filesize for one file in bytes. </paramE>
+            <returnsE>	WAV data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetTDMS(System.String,System.String,System.String,System.String,System.String)">
+            <inheritdoc />
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in eine  TDMS Datei schreibt, der Dateiaufbau wird anhand der Kanaleistellungen automatisch generiert .</summary>
+            <param name="Filename">		  	Dateiname. </param>
+            <param name="MeasurementName">	Name der Messung. </param>
+            <param name="Decsription">	  	Beschreibung. </param>
+            <param name="Title">		  	Titel der Messung. </param>
+            <param name="Author">		  	Autor der Messung. </param>
+            <returns>	TDMS DataSink. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into a TDMS file.. </summaryE>
+            <paramE name="Filename">		 filename . </paramE>
+            <paramE name="MeasurementName">	 name of the measurement. </paramE>
+            <paramE name="Decsription">	  	measurement decsription. </paramE>
+            <paramE name="Title">		  	measurement title. </paramE>
+            <paramE name="Author">		  	measurement file author. </paramE>
+            <returnsE>	TDMS DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetOPC(Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCBase[])">
+            <inheritdoc />
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten auf mehrere OPC Server schreibt. </summary>
+            <param name="AIChannelMap">	Array von MAIDataSinkChannelMaps (eine pro Serverinstanz), die die Server Zugriffe beschreiben. </param>
+            <returns>	DataSink für OPC Server. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into multiple OPC servers. </summaryE>
+            <paramE name="AIChannelMap"> array of MAIDataSinkChannelMaps (one per server instance), that desrcibe the server accesses. </paramE>
+            <returnsE>	OPC DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetOPC(Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCBase)">
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten auf einen OPC Server schreibt. </summary>
+            <param name="AIChannelMap">	Eine Implementierung der Klasse MAIDataSinkChannelMapOPCBase, das die Server Zugriffe beschreibt. </param>
+            <returns>	DataSink für OPC Server. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into an OPC server. </summaryE>
+            <paramE name="AIChannelMap"> an implementation of MAIDataSinkChannelMapOPCBase, that desrcibes the server access. </paramE>
+            <returnsE>	OPC DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetTDMS(Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapTDMS)">
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in eine  TDM(S) Datei schreibt. </summary>
+            <param name="AIChannelMap">	 MAIDataSinkChannelMapTDMS, das die Zu beschreibende Datei enthält und deren Verwendung beschreibt. </param>
+            <returns>	DataSink für TDM(S) Dateien. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into a TDM(S) file. </summaryE>
+            <paramE name="AIChannelMap">	MAIDataSinkChannelMapTDMS, that desrcibes the Database access. </paramE>
+            <returnsE>	TDM(S) data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetTAFFMat(System.String,System.Int64,System.Int64)">
+            <inheritdoc />
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in eine TAFFMat Datei schreibt. </summary>
+            <param name="AIFIlename"> Dateiname. </param>
+            <param name="AIMaximumFilesize"> maximale Dateigröße für eine Datei in Bytes. </param>
+            <param name="AIFilesizeIncrease"> Größe in Bytes um die die momentan beschriebene Datei vergößert wird. </param>
+            <returns>	TAFFMat DataSink. </returns>
+            <paramE name="AIMaximumFilesize"> maximum filesize for one file in bytes. </paramE>
+            <param name="AIFilesizeIncrease"> size in bytes by which the current file is increased. </param>
+            <summaryE>	Creates a DataSinkTarget, that writes data into a TAFFMat file. </summaryE>
+            <paramE name="AIFIlename">	filename . </paramE>
+            <returnsE>	TAFFMat data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetTAFFMat(System.String,System.Int64)">
+            <inheritdoc />
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in eine TAFFMat Datei schreibt. </summary>
+            <param name="AIFIlename"> Dateiname. </param>
+            <param name="AIMaximumFilesize"> maximale Dateigröße für eine Datei in Bytes. </param>
+            <returns>	TAFFMat DataSink. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into a TAFFMat file. </summaryE>
+            <paramE name="AIFIlename">	filename . </paramE>
+            <paramE name="AIMaximumFilesize"> maximum filesize for one file in bytes. </paramE>
+            <returnsE>	TAFFMat data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetTAFFMat(System.String)">
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in eine TAFFMat Datei schreibt, nach 4 GB wird eine neue Datei begonnen. </summary>
+            <param name="AIFIlename"> Dateiname. </param>
+            <returns>	TAFFMat DataSink. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into a TAFFMat file, when the filesize reaches 4GB a new file will be created. </summaryE>
+            <paramE name="AIFIlename">	filename . </paramE>
+            <returnsE>	TAFFMat data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetIOStream(System.IO.Stream,System.IO.Stream)">
+            <inheritdoc />
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in ein Stream Objekt anfügt. </summary>
+            <param name="AIDataStream">	 Stream Objekt. </param>
+            <param name="AIControlStream">	 Stream Objekt für Metainformationen. </param>
+            <returns>	DataSink für Stream Objekte. </returns>
+            <paramE name="AIDataStream">	 stream object. </paramE>
+            <paramE name="AIControlStream">	 stream object for meta informationen. </paramE>
+            <returnsE>	IOStream DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetIOStream(System.IO.Stream)">
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in ein Stream Objekt anfügt. </summary>
+            <param name="AIDataStream">	 Stream Objekt. </param>
+            <returns>	DataSink für Stream Objekte. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into a Stream object. </summaryE>
+            <paramE name="AIChannelMap">	[in,out] File name. </paramE>
+            <returnsE>	SQL data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetCSV(System.String,System.Boolean,System.Char,System.IFormatProvider)">
+            <inheritdoc />
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in eine CSV Datei schreibt. </summary>
+            <param name="AIMeasureDataFilename">  If non-null, filename of the ai measure data file. </param>
+            <param name="AIMetaDataFilename">     If non-null, filename of the ai meta data file. </param>
+            <param name="AIAppend">	wenn [true]: Daten werden an existierende Files angehängt, wenn [false]: existiernde Dateien gleichen Namens werden überschrieben. </param>
+            <param name="AISeparator">				The ai separator. </param>
+            <param name="AINumberFormat">			[in,out] If non-null, the ai number format. </param>
+            <param name="AIRecordRaw">		wenn [true]: Rohdaten werden mit ins Messdatenfile geschrieben. </param>
+            <returns>	CSV data DataSink. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into a csv file. </summaryE>
+            <paramE name="AIMeasureDataFilename">  If non-null, filename of the ai measure data file. </paramE>
+            <paramE name="AIMetaDataFilename">     If non-null, filename of the ai meta data file. </paramE>
+            <paramE name="AIAppend">	wenn [true]: Daten werden an existierende Files angehängt, wenn [false]: existiernde Dateien gleichen Namens werden überschrieben. </paramE>
+            <paramE name="AISeparator">				The ai separator. </paramE>
+            <paramE name="AINumberFormat">			[in,out] If non-null, the ai number format. </paramE>
+            <paramE name="AIRecordRaw">		wenn [true]: Rohdaten werden mit ins Messdatenfile geschrieben. </paramE>
+            <returnsE>	CSV data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetCSV(System.String,System.String,System.Boolean,System.Char,System.IFormatProvider,System.Boolean)">
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in eine CSV Datei schreibt. </summary>
+            <param name="AIMeasureDataFilename">  If non-null, filename of the ai measure data file. </param>
+            <param name="AIMetaDataFilename">     If non-null, filename of the ai meta data file. </param>
+            <param name="AIAppend">	wenn [true]: Daten werden an existierende Files angehängt, wenn [false]: existiernde Dateien gleichen Namens werden überschrieben. </param>
+            <param name="AISeparator">				The ai separator. </param>
+            <param name="AINumberFormat">			[in,out] If non-null, the ai number format. </param>
+            <param name="AIRecordRaw">		wenn [true]: Rohdaten werden mit ins Messdatenfile geschrieben. </param>
+            <returns>	CSV data DataSink. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into a csv file. </summaryE>
+            <paramE name="AIMeasureDataFilename">  If non-null, filename of the ai measure data file. </paramE>
+            <paramE name="AIMetaDataFilename">     If non-null, filename of the ai meta data file. </paramE>
+            <paramE name="AIAppend">	wenn [true]: Daten werden an existierende Files angehängt, wenn [false]: existiernde Dateien gleichen Namens werden überschrieben. </paramE>
+            <paramE name="AISeparator">				The ai separator. </paramE>
+            <paramE name="AINumberFormat">			[in,out] If non-null, the ai number format. </paramE>
+            <paramE name="AIRecordRaw">		wenn [true]: Rohdaten werden mit ins Messdatenfile geschrieben. </paramE>
+            <returnsE>	CSV data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetSQL(Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapSQL)">
+            <summary>	Erzeugt ein DataSinkTarget, das Messdaten in eine Datenbank anfügt. </summary>
+            <param name="AIChannelMap">	 MAIDataSinkChannelMapSQL, die die Datenbankzugriffe beschreibt. </param>
+            <returns>	DataSink für Datenbankzugriffe. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes data into a database. </summaryE>
+            <paramE name="AIChannelMap">	MAIDataSinkChannelMapSQL, that desrcibes the Database access. </paramE>
+            <returnsE>	SQL data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateConverterThreadToRAW(Goldammer.IDataSinkTarget,System.String,System.UInt64,System.UInt64)">
+            <inheritdoc />
+            <summary>	Erzeugt einen MAIDataSinkTargetRAWConverterThread ,der  Rohdaten  in ein anders Datasink Target konvertiert. </summary>
+            <param name="AIFilename">	[in,out] Dateiname. </param>
+            <param name="AITargetSink"> Ziel Datasink. </param>
+            <param name="AIStartBurst"> Erster zu bearbeitender Burst. </param>
+            <param name="AIEndBurst"> letzter zu bearbeitender Burst. </param>
+            <returns>	MAIDataSinkTargetRAWConverterThread. </returns>
+            <summaryE>	creates a MAIDataSinkTargetRAWConverterThread,that converts raw data  Rohdatenfile into another Datasink Target . </summaryE>
+            <paramE name="AIFIlename">	[in,out] File name. </paramE>
+            <paramE name="AITargetSink"> Target Datesink. </paramE>
+            <paramE name="AIStartBurst"> First burst to process. </paramE>
+            <paramE name="AIEndBurst"> Last burst to process. </paramE>
+            <returnsE>	MAIDataSinkTargetRAWConverterThread </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateConverterThreadToRAW(Goldammer.IDataSinkTarget,System.String,System.UInt64)">
+            <inheritdoc />
+            <summary>	Erzeugt einen MAIDataSinkTargetRAWConverterThread ,der  Rohdaten  in ein anders Datasink Target konvertiert. </summary>
+            <param name="AIFilename">	[in,out] Dateiname. </param>
+            <param name="AITargetSink"> Ziel Datasink. </param>
+            <param name="AIStartBurst"> Erster zu bearbeitender Burst. </param>
+            <param name="AIEndBurst"> letzter zu bearbeitender Burst. </param>
+            <returns>	MAIDataSinkTargetRAWConverterThread. </returns>
+            <summaryE>	creates a MAIDataSinkTargetRAWConverterThread,that converts raw data  Rohdatenfile into another Datasink Target . </summaryE>
+            <paramE name="AIFIlename">	[in,out] File name. </paramE>
+            <paramE name="AITargetSink"> Target Datesink. </paramE>
+            <paramE name="AIStartBurst"> First burst to process. </paramE>
+            <paramE name="AIEndBurst"> Last burst to process. </paramE>
+            <returnsE>	MAIDataSinkTargetRAWConverterThread </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateConverterThreadToRAW(Goldammer.IDataSinkTarget,System.String)">
+            <summary>	Erzeugt einen MAIDataSinkTargetRAWConverterThread ,der  Rohdaten  in ein anders Datasink Target konvertiert. </summary>
+            <param name="AIFilename">	[in,out] Dateiname. </param>
+            <param name="AITargetSink"> Ziel Datasink. </param>
+            <param name="AIStartBurst"> Erster zu bearbeitender Burst. </param>
+            <param name="AIEndBurst"> letzter zu bearbeitender Burst. </param>
+            <returns>	MAIDataSinkTargetRAWConverterThread. </returns>
+            <summaryE>	creates a MAIDataSinkTargetRAWConverterThread,that converts raw data  Rohdatenfile into another Datasink Target . </summaryE>
+            <paramE name="AIFIlename">	[in,out] File name. </paramE>
+            <paramE name="AITargetSink"> Target Datesink. </paramE>
+            <paramE name="AIStartBurst"> First burst to process. </paramE>
+            <paramE name="AIEndBurst"> Last burst to process. </paramE>
+            <returnsE>	MAIDataSinkTargetRAWConverterThread </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.ConvertRAW(Goldammer.IDataSinkTarget,System.String,System.UInt64,System.UInt64)">
+            <inheritdoc />
+            <summary>	Konvertiert  Rohdaten  in ein anders Datasink Target . </summary>
+            <param name="AIFIlename">	[in,out] Dateiname. </param>
+            <param name="AITargetSink"> Ziel Datasink. </param>
+            <param name="AIStartBurst"> Erster zu bearbeitender Burst. </param>
+            <param name="AIEndBurst"> letzter zu bearbeitender Burst. </param>
+            <summaryE>	Converts raw data  Rohdatenfile into another Datasink Target . </summaryE>
+            <paramE name="AIFIlename">	[in,out] File name. </paramE>
+            <paramE name="AITargetSink"> Target Datesink. </paramE>
+            <paramE name="AIStartBurst"> First burst to process. </paramE>
+            <paramE name="AIEndBurst"> Last burst to process. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.ConvertRAW(Goldammer.IDataSinkTarget,System.String,System.UInt64)">
+            <inheritdoc />
+            <summary>	Konvertiert  Rohdaten  in ein anders Datasink Target . </summary>
+            <param name="AIFilename">	[in,out] Dateiname. </param>
+            <param name="AITargetSink"> Ziel Datasink. </param>
+            <param name="AIStartBurst"> Erster zu bearbeitender Burst. </param>
+            <summaryE>	Converts raw data  Rohdatenfile into another Datasink Target . </summaryE>
+            <paramE name="AIFIlename">	[in,out] File name. </paramE>
+            <paramE name="AITargetSink"> Target Datesink. </paramE>
+            <paramE name="AIStartBurst"> First burst to process. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.ConvertRAW(Goldammer.IDataSinkTarget,System.String)">
+            <summary>	Konvertiert  Rohdaten  in ein anders Datasink Target . </summary>
+            <param name="AIFilename">	[in,out] Dateiname. </param>
+            <param name="AITargetSink"> Ziel Datasink. </param>
+            <summaryE>	Converts raw data  Rohdatenfile into another Datasink Target . </summaryE>
+            <paramE name="AIFIlename">	[in,out] File name. </paramE>
+            <paramE name="AITargetSink"> Target Datesink. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetRAW(System.String,System.Int64,System.Int64)">
+            <inheritdoc />
+            <summary>	Erzeugt ein DataSinkTarget, das Rohdatenfiles schreibt . </summary>
+            <param name="AIFIlename">	[in,out] Dateiname. </param>
+            <param name="AIMaximumFilesize"> maximale Dateigröße für eine Datei in Bytes. </param>
+            <param name="AIFilesizeIncrease"> Größe in Bytes um die die momentan beschriebene Datei vergößert wird. </param>
+            <returns>	DataSink für Rohdatendaten. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes raw date to into files. </summaryE>
+            <paramE name="AIFIlename">	[in,out] File name. </paramE>
+            <paramE name="AIMaximumFilesize"> maximum filesize for one file in bytes. </paramE>
+            <param name="AIFilesizeIncrease"> size in bytes by which the current file is increased. </param>
+            <returnsE>	raw data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetRAW(System.String,System.Int64)">
+            <inheritdoc />
+            <summary>	Erzeugt ein DataSinkTarget, das Rohdatenfiles schreibt . </summary>
+            <param name="AIFIlename">	[in,out] Dateiname. </param>
+            <param name="AIMaximumFilesize"> maximale Dateigröße für eine Datei in Bytes. </param>
+            <returns>	DataSink für Rohdatendaten. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes raw date to into files. </summaryE>
+            <paramE name="AIFIlename">	[in,out] File name. </paramE>
+            <paramE name="AIMaximumFilesize"> maximum filesize for one file in bytes. </paramE>
+            <returnsE>	raw data DataSink. </returnsE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget.CreateTargetRAW(System.String)">
+            <summary>	Erzeugt ein DataSinkTarget, das Rohdatenfiles schreibt, nach 4 GB wird eine neue Datei begonnen. </summary>
+            <param name="AIFIlename">	[in,out] Dateiname. </param>
+            <returns>	DataSink für Rohdatendaten. </returns>
+            <summaryE>	Creates a DataSinkTarget, that writes raw date into files, when the filesize reaches 4GB a new file will be created. </summaryE>
+            <paramE name="AIFIlename">	[in,out] File name. </paramE>
+            <returnsE>	raw data DataSink. </returnsE>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIDataSinkTarget">
+            <summary>	Bietet mehrere statische Methoden zum Erzeugen verschiedener MAIDataSinkTargets.  </summary>
+            <summaryE>	Offers several static methods for creating different MAIDataSinkTargets.  </summaryE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapSQL.SetDBStatementForNumberOfBurstsRecorded(System.Data.Common.DbCommand,System.Data.Common.DbParameter)">
+            <summary>	Setzt die Verbindung der Information 'Anzahl der aufgezeichneten Messbursts' mit einem INSERT- oder UPDATE-Kommando. </summary>
+            <param name="InsertStatement">   	INSERT oder UPDATE Kommando. </param>
+            <param name="DataColumn">  	DB Paramter, der das Feld 'Anzahl der aufgezeichneten Messbursts' im Statement repräsentiert . </param>
+            <summaryE>	sets the link between the information 'number of bursts recorded' and an insert or update statement . </summaryE>
+            <paramE name="InsertStatement">   	insert or update statement. </paramE>
+            <paramE name="DataColumn">  	DB paramEter that marks the 'number of bursts recorded' data field inside the statement . </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapSQL.SetDBStatementForStartTime(System.Data.Common.DbCommand,System.Data.Common.DbParameter)">
+            <summary>	Setzt die Verbindung der Information 'Start Zeit' mit einem INSERT- oder UPDATE-Kommando ). </summary>
+            <param name="InsertStatement">   	INSERT oder UPDATE Kommando. </param>
+            <param name="DataColumn">  	DB Paramter, der das Feld 'Start Zeit' im Statement repräsentiert . </param>
+            <summaryE>	sets the link between the information 'Start Time' and an insert or update statement. </summaryE>
+            <paramE name="InsertStatement">   	insert or update statement. </paramE>
+            <paramE name="DataColumn">  	DB paramEter that marks the 'Start Time' data field inside the statement. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapSQL.SetDBStatementForSampleRate(System.Data.Common.DbCommand,System.Data.Common.DbParameter)">
+            <summary>	Setzt die Verbindung der Information 'Samplerate' mit einem INSERT- oder UPDATE-Kommando. </summary>
+            <param name="InsertStatement">   	INSERT oder UPDATE Kommando. </param>
+            <param name="DataColumn">  	DB Paramter, der das Feld 'Samplerate' im Statement repräsentiert . </param>
+            <summaryE>	sets the link between the information 'Samplerate' and an insert or update statement . </summaryE>
+            <param name="InsertStatement">   	insert or update statement. </param>
+            <param name="DataColumn">  	DB Paramter that marks the 'Samplerate' data field inside the statement . </param>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapSQL.SetDBStatementForTTLData(System.Data.Common.DbCommand,System.Data.Common.DbParameter)">
+            <summary>	Setzt die Verbindung der TTL Messdaten mit einem INSERT-Kommando. </summary>
+            <param name="InsertStatement">   	INSERT Kommando. </param>
+            <param name="DataColumn">  	DB Paramter, der die Spalte für TTL Daten im Insert-Statement repräsentiert. </param>
+            <summaryE>	sets the link between TTL measurement data and an insert statement. </summaryE>
+            <paramE name="InsertStatement">   	insert statement. </paramE>
+            <paramE name="DataColumn">  	DB paramEter that marks the TTL data column inside the insert statement. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapSQL.AddDBStatementForData(Goldammer.MAIMeasurementChannelCT,System.Data.Common.DbCommand,System.Data.Common.DbParameter,System.Data.Common.DbParameter)">
+            <summary>	Fügt eine Verbindung von einem Messkanal mit einem INSERT-Kommando hinzu (mehrfache Links sind erlaubt). </summary>
+            <param name="MeasurementChannel">	Messkanal. </param>
+            <param name="InsertStatement">   	INSERT Kommando. </param>
+            <param name="ScaledDataColumn">  	DB Paramter, der die Spalte für skalierte Daten im Insert-Statement repräsentiert (null ist erlaubt). </param>
+            <param name="RawDataColumn">	 	DB Paramter, der die Spalte für Rohdaten im Insert-Statement repräsentiert (null ist erlaubt). </param>
+            <summaryE>	Adds a link between a measurement channel and an insert statement (multiple links are allowed). </summaryE>
+            <paramE name="MeasurementChannel">	measurement channel. </paramE>
+            <paramE name="InsertStatement">   	insert statement. </paramE>
+            <paramE name="ScaledDataColumn">  	DB paramEter that marks the scaled data column inside the insert statement (null is allowed). </paramE>
+            <paramE name="RawDataColumn">	 	DB paramEter that marks the raw data column inside the insert statement  (null is allowed). </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapSQL.AddDBStatementForData(Goldammer.MAIMeasurementChannelAD,System.Data.Common.DbCommand,System.Data.Common.DbParameter,System.Data.Common.DbParameter)">
+            <summary>	Fügt eine Verbindung von einem Messkanal mit einem INSERT-Kommando hinzu (mehrfache Links sind erlaubt). </summary>
+            <param name="MeasurementChannel">	Messkanal. </param>
+            <param name="InsertStatement">   	INSERT Kommando. </param>
+            <param name="ScaledDataColumn">  	DB Paramter, der die Spalte für skalierte Daten im Insert-Statement repräsentiert (null ist erlaubt). </param>
+            <param name="RawDataColumn">	 	DB Paramter, der die Spalte für Rohdaten im Insert-Statement repräsentiert (null ist erlaubt). </param>
+            <summaryE>	Adds a link between a measurement channel and an insert statement (multiple links are allowed). </summaryE>
+            <paramE name="MeasurementChannel">	measurement channel. </paramE>
+            <paramE name="InsertStatement">   	insert statement. </paramE>
+            <paramE name="ScaledDataColumn">  	DB paramEter that marks the scaled data column inside the insert statement (null is allowed). </paramE>
+            <paramE name="RawDataColumn">	 	DB paramEter that marks the raw data column inside the insert statement  (null is allowed). </paramE>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapSQL">
+            <summary>	Verbindet die Messkanäle und die Metainformationen der Messung mit den zur Speicherung benötigten
+			Datenbank-Kommandos und deren Parametern.  </summary>
+            <summary>	determines a mapping for the measurement channels and the measurement's metadata with 
+			the database commands and it's parameters.  </summary>
+        </member>
+        <member name="P:Goldammer.MAIExtensions.DAQ.MAIDataSinkTargetRAWConverterThread.Running">
+            <summary>	Gibt an, ob die Ausführung beendet ist. </summary>
+            <value>	wenn [true]: Konvertierung ist noch nicht beendet. </value>
+            <summaryE>	determines, if the conversion process is still running </summaryE>
+            <valueE> if [true]: the conversion is still in progress. </valueE>
+        </member>
+        <member name="P:Goldammer.MAIExtensions.DAQ.MAIDataSinkTargetRAWConverterThread.BurstCount">
+            <summary>	Gibt die Anzahl der bereits bearbeiteten Bursts zurück. </summary>
+            <value>	Anzahl der bereits bearbeiteten Bursts. </value>
+            <summaryE>	Gets the number of bursts processed. </summaryE>
+            <valueE>	number of bursts processed. </valueE>
+        </member>
+        <member name="P:Goldammer.MAIExtensions.DAQ.MAIDataSinkTargetRAWConverterThread.NumberOfBursts">
+            <summary>	Gibt die Anzahl der Bursts im Rohdatenfile zurück. </summary>
+            <value>	 Anzahl der Bursts im Rohdatenfile. </value>
+            <summaryE>	Gets the number of bursts in the raw data file. </summaryE>
+            <valueE>	The total number of bursts in the raw data file. </valueE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTargetRAWConverterThread.Stop">
+            <summary> Stoppt die Konvertierung. </summary>
+            <summary> aborts the converting process. </summary>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkTargetRAWConverterThread.Start">
+            <summary>	Startet die Konvertierung. </summary>
+            <summary>	Starts the converting process. </summary>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIDataSinkTargetRAWConverterThread">
+            <summary>	MAIDataSinkTargetRAW Konvertierungsthread.  </summary>
+            <summaryE>	MAIDataSinkTargetRAW converter thread.  </summaryE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCNET20.SetTargetChannelForTTLData(System.String)">
+            <summary>	Verbindet die TTL Daten mit einem Tag auf dem OPC Server innerhalb einer Tag-Gruppe. </summary>
+            <param name="DataTag"> Tag, das beschrieben werden soll. </param>
+            <summaryE>	Adds a link between the TTL Data and a tag from a server's tag group. </summaryE>
+            <paramE name="OutputGroup">	 tag group which provides the update rate. </paramE>
+            <paramE name="DataTag"> tag to write into. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCNET20.AddTargetForChannel(Goldammer.MAIMeasurementChannelCT,System.String,System.String)">
+            <summary>	Verbindet  einen Messkanal mit Tags auf dem OPC Server innerhalb einer Tag-Gruppe. </summary>
+            <param name="MeasurementChannel">	Messkanal. </param>
+            <param name="ScaledDataTag"> Tag, das mit skalierten Daten beschrieben werden soll  (null ist erlaubt). </param>
+            <param name="RawDataTag">  Tag, das mit Rohdaten beschrieben werden soll  (null ist erlaubt). </param>
+            <summaryE>	Adds a link between a measurement channel and  an OPC server's tags. </summaryE>
+            <paramE name="MeasurementChannel"> the measurement channel. </paramE>
+            <paramE name="ScaledDataTag"> scaled data tag (null is allowed). </paramE>
+            <paramE name="RawDataTag">  raw data tag  (null is allowed). </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCNET20.AddTargetForChannel(Goldammer.MAIMeasurementChannelAD,System.String,System.String)">
+            <summary>	Verbindet  einen Messkanal mit Tags auf dem OPC Server innerhalb einer Tag-Gruppe. </summary>
+            <param name="MeasurementChannel">	Messkanal. </param>
+            <param name="ScaledDataTag"> Tag, das mit skalierten Daten beschrieben werden soll  (null ist erlaubt). </param>
+            <param name="RawDataTag">  Tag, das mit Rohdaten beschrieben werden soll  (null ist erlaubt). </param>
+            <summaryE>	Adds a link between a measurement channel and  an OPC server's tags. </summaryE>
+            <paramE name="MeasurementChannel"> the measurement channel. </paramE>
+            <paramE name="ScaledDataTag"> scaled data tag (null is allowed). </paramE>
+            <paramE name="RawDataTag">  raw data tag  (null is allowed). </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCNET20.#ctor(Opc.Da.Server,System.UInt32)">
+            <summary>	Constructor. </summary>
+            <param name="OPCServer">  der OPC DA Server, zu dem die Daten gesendet werden sollen. Der Server muss bereits verbunden sein. </param>
+            <param name="AIUpdateRate">	Update Rate. </param>
+            <summaryE>	Constructor. </summaryE>
+            <paramE name="OPCServer">  the OPC DA server to write data to. The Server has to be connected.</paramE>
+            <paramE name="AIUpdateRate">	update rate. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCNET20.GetWriteableTagNamesAndDataType(Opc.Da.Server)">
+            <summary>	Gibt ein Dictionary mit Namen der beschreibbaren Tags und deren Datentypen zurück. </summary>
+            <param name="AIServer"> Opc.Da.Server Objekt. </param>
+            <returns> Namen der beschreibbaren Tags mit deren Datentypen. </returns>
+            <summaryE>	Gets a writeable tag names and data type on the secified server. </summaryE>
+            <paramE name="AIServer">	Opc.Da.Server object. </paramE>
+            <returnsE> the names of the writeable tags and their data types. </returnsE>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCNET20">
+            <summary>	Verbindet die Messkanäle  mit Tags des OPC Servers.  </summary>
+            <summary>	determines a mapping for the measurement channels and an OPC server's tags.  </summary>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapTDMS.SetTargetParameterForNumberOfBurstsRecorded(NI_DDC_NET_DLL.NI_DDCFile,System.String)">
+            <summary>	Setzt die Verbindung der Information 'Anzahl der aufgezeichneten Messbursts' mit einem Parameter in der TDM(S) Datei . </summary>
+            <param name="OutputFile">	 TDM(S) Datei. </param>
+            <param name="ParameterNameInFile"> Parameter in der TDM(S) Datei. </param>
+            <summaryE>	sets the link between the information 'number of bursts recorded' and a parameter inside the TDM(S) file. </summaryE>
+            <paramE name="OutputFile">	 TDM(S) file. </paramE>
+            <paramE name="ParameterNameInFile"> parameter inside the TDM(S) file. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapTDMS.SetTargetParameterForStartTime(NI_DDC_NET_DLL.NI_DDCFile,System.String)">
+            <summary>	Setzt die Verbindung der Information 'Start Zeit' mit einem Parameter in der TDM(S) Datei . </summary>
+            <param name="OutputFile">	 TDM(S) Datei. </param>
+            <param name="ParameterNameInFile"> Parameter in der TDM(S) Datei. </param>
+            <summaryE>	sets the link between the information 'start time' and a parameter inside the TDM(S) file. </summaryE>
+            <paramE name="OutputFile">	 TDM(S) file. </paramE>
+            <paramE name="ParameterNameInFile"> parameter inside the TDM(S) file. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapTDMS.SetTargetParameterForSampleRate(NI_DDC_NET_DLL.NI_DDCFile,System.String)">
+            <summary>	Setzt die Verbindung der Information 'SampleRate' mit einem Parameter in der TDM(S) Datei . </summary>
+            <param name="OutputFile">	 TDM(S) Datei. </param>
+            <param name="ParameterNameInFile"> Parameter in der TDM(S) Datei. </param>
+            <summaryE>	sets the link between the information 'SampleRate' and a parameter inside the TDM(S) file. </summaryE>
+            <paramE name="OutputFile">	 TDM(S) file. </paramE>
+            <paramE name="ParameterNameInFile"> parameter inside the TDM(S) file. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapTDMS.SetTargetChannelForTTLData(NI_DDC_NET_DLL.NI_DDCFile,NI_DDC_NET_DLL.NI_DDCChannel)">
+            <summary>	Verbindet die TTL Daten mit einem NI_DDCChannel . </summary>
+            <param name="OutputFile">	 TDM(S) Datei. </param>
+            <param name="DataChannelInFile"> Kanal in der TDM(S) Datei. </param>
+            <summaryE>	Adds a link between the TTL Data and a NI_DDCChannel. </summaryE>
+            <paramE name="OutputFile">	 TDM(S) file. </paramE>
+            <paramE name="DataChannelInFile"> channel inside the  TDM(S) file. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapTDMS.AddTargetForChannel(Goldammer.MAIMeasurementChannelCT,NI_DDC_NET_DLL.NI_DDCFile,NI_DDC_NET_DLL.NI_DDCChannel,NI_DDC_NET_DLL.NI_DDCChannel)">
+            <summary>	Verbindet  einen Messkanal mit einem NI_DDCChannel . </summary>
+            <param name="MeasurementChannel">	Messkanal. </param>
+            <param name="OutputFile">	 TDM(S) Datei. </param>
+            <param name="ScaledDataChannelInFile"> Kanal in der TDM(S) Datei für skalierte Daten (null ist erlaubt). </param>
+            <param name="RawDataChannelInFile">   Kanal in der TDM(S) Datei für Rohdaten (null ist erlaubt). </param>
+            <summaryE>	Adds a link between a measurement channel and a NI_DDCChannel. </summaryE>
+            <paramE name="MeasurementChannel"> the measurement channel. </paramE>
+            <paramE name="OutputFile">	 TDM(S) file. </paramE>
+            <paramE name="ScaledDataChannelInFile"> scaled data channel inside the  TDM(S) file (null is allowed). </paramE>
+            <paramE name="RawDataChannelInFile">  raw data channel inside the  TDM(S) file (null is allowed). </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapTDMS.AddTargetForChannel(Goldammer.MAIMeasurementChannelAD,NI_DDC_NET_DLL.NI_DDCFile,NI_DDC_NET_DLL.NI_DDCChannel,NI_DDC_NET_DLL.NI_DDCChannel)">
+            <summary>	Verbindet  einen Messkanal mit einem NI_DDCChannel . </summary>
+            <param name="MeasurementChannel">	Messkanal. </param>
+            <param name="OutputFile">	 TDM(S) Datei. </param>
+            <param name="ScaledDataChannelInFile"> Kanal in der TDM(S) Datei für skalierte Daten (null ist erlaubt). </param>
+            <param name="RawDataChannelInFile">   Kanal in der TDM(S) Datei für Rohdaten (null ist erlaubt). </param>
+            <summaryE>	Adds a link between a measurement channel and a NI_DDCChannel. </summaryE>
+            <paramE name="MeasurementChannel"> the measurement channel. </paramE>
+            <paramE name="OutputFile">	 TDM(S) file. </paramE>
+            <paramE name="ScaledDataChannelInFile"> scaled data channel inside the  TDM(S) file (null is allowed). </paramE>
+            <paramE name="RawDataChannelInFile">  raw data channel inside the  TDM(S) file (null is allowed). </paramE>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapTDMS">
+            <summary>	Verbindet die Messkanäle und die Metainformationen der Messung mit den Kanälen und Parametern in
+			der TDM(S) Datei.  </summary>
+            <summary>	determines a mapping for the measurement channels and the measurement's metadata with 
+			the channels and parameters inside the TDM(S) file.  </summary>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCUA.SetTargetChannelForTTLData(Opc.Ua.NodeId)">
+            <summary>	Verbindet die TTL Daten mit einem Tag auf dem OPC Server innerhalb einer Tag-Gruppe. </summary>
+            <param name="DataTag"> Tag, das beschrieben werden soll. </param>
+            <summaryE>	Adds a link between the TTL Data and a tag from a server's tag group. </summaryE>
+            <paramE name="OutputGroup">	 tag group which provides the update rate. </paramE>
+            <paramE name="DataTag"> tag to write into. </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCUA.AddTargetForChannel(Goldammer.MAIMeasurementChannelCT,Opc.Ua.NodeId,Opc.Ua.NodeId)">
+            <summary>	Verbindet  einen Messkanal mit Tags auf dem OPC Server innerhalb einer Tag-Gruppe. </summary>
+            <param name="MeasurementChannel">	Messkanal. </param>
+            <param name="ScaledDataTag"> Tag, das mit skalierten Daten beschrieben werden soll  (null ist erlaubt). </param>
+            <param name="RawDataTag">  Tag, das mit Rohdaten beschrieben werden soll  (null ist erlaubt). </param>
+            <summaryE>	Adds a link between a measurement channel and  an OPC server's tags. </summaryE>
+            <paramE name="MeasurementChannel"> the measurement channel. </paramE>
+            <paramE name="ScaledDataTag"> scaled data tag (null is allowed). </paramE>
+            <paramE name="RawDataTag">  raw data tag  (null is allowed). </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCUA.AddTargetForChannel(Goldammer.MAIMeasurementChannelAD,Opc.Ua.NodeId,Opc.Ua.NodeId)">
+            <summary>	Verbindet  einen Messkanal mit Tags auf dem OPC Server innerhalb einer Tag-Gruppe. </summary>
+            <param name="MeasurementChannel">	Messkanal. </param>
+            <param name="ScaledDataTag"> Tag, das mit skalierten Daten beschrieben werden soll  (null ist erlaubt). </param>
+            <param name="RawDataTag">  Tag, das mit Rohdaten beschrieben werden soll  (null ist erlaubt). </param>
+            <summaryE>	Adds a link between a measurement channel and  an OPC server's tags. </summaryE>
+            <paramE name="MeasurementChannel"> the measurement channel. </paramE>
+            <paramE name="ScaledDataTag"> scaled data tag (null is allowed). </paramE>
+            <paramE name="RawDataTag">  raw data tag  (null is allowed). </paramE>
+        </member>
+        <member name="M:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCUA.#ctor(Opc.Ua.Client.Session,System.UInt32)">
+            <summary>	Constructor. </summary>
+            <param name="OPCServer"> Eine geöffnete Session auf dem OPC UA Server, zu dem die Daten gesendet werden sollen.  </param>
+            <param name="AIUpdateRate">	Update Rate. </param>
+            <summaryE>	Constructor. </summaryE>
+            <paramE name="OPCServer">  An open session to an OPC UA server to write data to. </paramE>
+            <paramE name="AIUpdateRate"> update rate. </paramE>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCUA">
+            <summary>	Verbindet die Messkanäle  mit Tags des OPC Servers.  </summary>
+            <summary>	determines a mapping for the measurement channels and an OPC server's tags.  </summary>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMapOPCBase">
+            <summary>	Verbindet die Messkanäle  mit Tags des OPC Servers.  </summary>
+            <summary>	determines a mapping for the measurement channels and an OPC server's tags.  </summary>
+        </member>
+        <member name="T:Goldammer.MAIExtensions.DAQ.MAIDataSinkChannelMap`4">
+            <summary>	Generische Basisklasse für alle MAIDataSinkChannelMap Objekte.  </summary>
+            <summaryE>	generic base class for all MAIDataSinkChannelMap ojects.  </summaryE>
+        </member>
+    </members>
+</doc>

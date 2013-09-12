@@ -10,11 +10,11 @@ using Goldammer;
 
 namespace MAIRecorder {
     public partial class CounterConfigPanelImpulse : UserControl, ICounterConfigPanel {
+        private CTChannel m_ctpanel;
+        
         public CounterConfigPanelImpulse() {
             InitializeComponent();
         }
-
-        CTChannel m_ctpanel;
 
         public CounterConfigPanelImpulse(CTChannel AImyPanel) {
             InitializeComponent();
@@ -24,6 +24,7 @@ namespace MAIRecorder {
             comboBoxImpulseDirection.SelectedIndex = (int)m_ctpanel.UpOrDown;
             comboBoxSignalEdge.SelectedIndex = (int)m_ctpanel.Edge;
         }
+
         #region ICounterConfigPanel Member
 
         public void WriteConfigToPanel() {

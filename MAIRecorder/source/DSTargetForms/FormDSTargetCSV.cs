@@ -11,22 +11,10 @@ using System.IO;
 
 namespace MAIRecorder {
     public partial class FormDSTargetCSV : MAIRecorder.FormDSTargetConfigBase {
-        public FormDSTargetCSV() {
-            InitializeComponent();
-            textBoxMetaName.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MetaOutput.csv";
-            textBoxFilenameMain.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\DataOutput.csv";
-        }
 
-        protected override void CreateTarget() {
-            m_TargetFileName = Path.GetFileName(textBoxFilenameMain.Text) + " (CSV File)";
-            if (checkBoxWriteMeta.Checked) {
-                m_target = MAIDataSinkTarget.CreateTargetCSV(textBoxFilenameMain.Text, textBoxMetaName.Text, checkBoxAppendTo.Checked, GetSeparatorChar(), GetFormatProvider(), false);
-                
-            }
-            else {
-                m_target = MAIDataSinkTarget.CreateTargetCSV(textBoxFilenameMain.Text, checkBoxAppendTo.Checked, GetSeparatorChar(), GetFormatProvider());
-            }
-        }
+        #region private
+
+        #region methods
 
         private IFormatProvider GetFormatProvider() {
             if (radioButtonDE.Checked)
@@ -41,6 +29,10 @@ namespace MAIRecorder {
                 return ';';
             return '\t';
         }
+     
+        #endregion
+
+        #region ui_event_handlers
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e) {
             textBoxMetaName.Enabled = checkBoxWriteMeta.Checked;
@@ -64,6 +56,35 @@ namespace MAIRecorder {
                 return;
             textBoxMetaName.Text = saveFileDialog1.FileName;
         }
+        
+        #endregion
+
+        #endregion
+
+        #region protected
+        
+        protected override void CreateTarget() {
+            m_TargetFileName = Path.GetFileName(textBoxFilenameMain.Text) + " (CSV File)";
+            if (checkBoxWriteMeta.Checked) {
+                m_target = MAIDataSinkTarget.CreateTargetCSV(textBoxFilenameMain.Text, textBoxMetaName.Text, checkBoxAppendTo.Checked, GetSeparatorChar(), GetFormatProvider(), false);
+
+            }
+            else {
+                m_target = MAIDataSinkTarget.CreateTargetCSV(textBoxFilenameMain.Text, checkBoxAppendTo.Checked, GetSeparatorChar(), GetFormatProvider());
+            }
+        } 
+
+        #endregion
+
+        #region public
+       
+        public FormDSTargetCSV() {
+            InitializeComponent();
+            textBoxMetaName.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MetaOutput.csv";
+            textBoxFilenameMain.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\DataOutput.csv";
+        }
+        
+        #endregion
 
     }
 }

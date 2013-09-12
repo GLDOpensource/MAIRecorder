@@ -10,16 +10,8 @@ using System.IO;
 
 namespace MAIRecorder {
     public partial class FormDSTargetRAW : MAIRecorder.FormDSTargetConfigBase {
-        public FormDSTargetRAW() {
-            InitializeComponent();
-            textBoxFilenameMain.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Output.rawfile";
 
-        }
-        protected override void CreateTarget() {
-            m_target = MAIDataSinkTarget.CreateTargetRAW(textBoxFilenameMain.Text);
-            m_TargetFileName = Path.GetFileName(textBoxFilenameMain.Text) + " (RAW File)";
-
-        }
+        #region private
 
         private void buttonSetFilename_Click(object sender, EventArgs e) {
             saveFileDialog1.Title = "Select data output file";
@@ -29,5 +21,27 @@ namespace MAIRecorder {
                 return;
             textBoxFilenameMain.Text = saveFileDialog1.FileName;
         }
+        
+        #endregion
+
+        #region protected
+
+        protected override void CreateTarget() {
+            m_target = MAIDataSinkTarget.CreateTargetRAW(textBoxFilenameMain.Text);
+            m_TargetFileName = Path.GetFileName(textBoxFilenameMain.Text) + " (RAW File)";
+
+        } 
+
+        #endregion
+
+        #region public
+
+        public FormDSTargetRAW() {
+            InitializeComponent();
+            textBoxFilenameMain.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Output.rawfile";
+        } 
+
+        #endregion
+
     }
 }

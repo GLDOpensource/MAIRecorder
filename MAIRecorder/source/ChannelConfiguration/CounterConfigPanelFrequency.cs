@@ -10,11 +10,13 @@ using Goldammer;
 
 namespace MAIRecorder {
     public partial class CounterConfigPanelFrequency : UserControl, ICounterConfigPanel {
+
+        private CTChannel m_ctpanel;
+
         public CounterConfigPanelFrequency() {
             InitializeComponent();
        
         }
-        CTChannel m_ctpanel;
 
         public CounterConfigPanelFrequency(CTChannel AImyPanel) {
             InitializeComponent();
@@ -22,7 +24,6 @@ namespace MAIRecorder {
             comboBoxFCtResulution.SelectedIndex = (int)m_ctpanel.FCResolution;
             comboBoxSignalEdge.SelectedIndex = (int)m_ctpanel.Edge;   
         }
-
 
         #region ICounterConfigPanel Member
 

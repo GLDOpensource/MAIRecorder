@@ -9,11 +9,13 @@ using System.Windows.Forms;
 
 namespace MAIRecorder {
     public partial class FormConfigPeriodCounter : Form {
+
+
         public FormConfigPeriodCounter() {
             InitializeComponent();
         }
 
-        public int SingalEdge {
+        internal int SingalEdge {
             get {
                 return comboBoxSignalEdge.SelectedIndex;
             }
@@ -22,7 +24,7 @@ namespace MAIRecorder {
             }
         }
 
-        public int Reslution {
+        internal int Reslution {
             get {
                 return comboBoxFCtResulution.SelectedIndex;
             }

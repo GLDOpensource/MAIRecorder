@@ -10,26 +10,19 @@ using Goldammer;
 
 namespace MAIRecorder {
     public partial class DAChannelSmall : UserControl {
-        public DAChannelSmall() {
-            InitializeComponent();
-        }
-        MAIChannelDA m_channel;
-        public MAIChannelDA Channel {
-            get {
-                return m_channel;
-            }
-            set {
-                m_channel = value;
-                labelChannel.Text = "DA" + string.Format("{0:0}", m_channel.HardwareChannelNumber);
-            }
+
+        #region private
+
+        private MAIChannelDA m_channel;
+
+        private void trackBar1_Scroll(object sender, EventArgs e) {
+            Channel.WriteChannelVoltage((double)trackBar1.Value / 100.0);
+            textBox1.Text = string.Format("{0:00.00}", trackBar1.Value / 100.0);
         }
 
-        public DAChannelSmall(MAIChannelDA AIChannel) {
-            InitializeComponent();
-            Channel = AIChannel;
-            UpdateRange(DARange.Bipolar);
-            
-        }
+        #endregion
+
+        #region internal
 
         internal void UpdateRange(DARange AIRange) {
             if (AIRange == DARange.Bipolar) {
@@ -42,9 +35,33 @@ namespace MAIRecorder {
             }
         }
 
-        private void trackBar1_Scroll(object sender, EventArgs e) {
-            Channel.WriteChannelVoltage((double)trackBar1.Value / 100.0);
-            textBox1.Text = string.Format("{0:00.00}", trackBar1.Value / 100.0);
+        internal MAIChannelDA Channel {
+            get {
+                return m_channel;
+            }
+            set {
+                m_channel = value;
+                labelChannel.Text = "DA" + string.Format("{0:0}", m_channel.HardwareChannelNumber);
+            }
+        } 
+
+        #endregion
+
+        #region public
+
+        public DAChannelSmall() {
+            InitializeComponent();
         }
+
+        public DAChannelSmall(MAIChannelDA AIChannel) {
+            InitializeComponent();
+            Channel = AIChannel;
+            UpdateRange(DARange.Bipolar);
+
+        } 
+
+        #endregion
+
+    
     }
 }

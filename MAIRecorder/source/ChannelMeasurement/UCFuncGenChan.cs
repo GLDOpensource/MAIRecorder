@@ -11,26 +11,21 @@ using Goldammer;
 
 namespace MAIRecorder {
     public partial class UCFuncGenChan : UserControl {
-        public UCFuncGenChan() {
 
-            InitializeComponent();
-            meh = new System.Windows.Forms.MouseEventHandler(this.chart1_MouseMove);
-            this.chart1.MouseMove += meh;
-            SampleRate = 1000;
-            MinimumRange = -10;
-             
-        }
+        #region private
 
-        internal void Init() {
-            comboBox1.SelectedIndex = 0;
-            if (MinimumRange == 0){
-                numericUpDownOffset.Value = 5;
-                numericUpDownAmplitude.Value = 5;
-            }
-            InsertSine(SampleRate);
-        }
+        #region fields
 
-        List<Double> m_Points = new List<double>();
+        private List<Double> m_Points = new List<double>();
+        private MouseEventHandler meh;
+        private int LastMouseX;
+        private int LastMouseY;
+        private bool isDrawing = false;
+        private int OutDataPointer = 0;
+
+        #endregion
+
+        #region methods
 
         private void InsertSine(int ps) {
             ResetChart();
@@ -52,7 +47,6 @@ namespace MAIRecorder {
             p.ChartType = SeriesChartType.FastLine;
             chart1.ChartAreas[0].AxisY.Minimum = MinimumRange;
         }
-
 
         private void InsertRect(int ps) {
             ResetChart();
@@ -109,12 +103,10 @@ namespace MAIRecorder {
             return newPoint;
         }
 
+        #endregion
 
+        #region ui_event_handlers
 
-        MouseEventHandler meh;
-        int   LastMouseX;
-        int    LastMouseY;
-        bool isDrawing = false;
         private void chart1_MouseMove(object sender, MouseEventArgs e) {
            
             chart1.ChartAreas[0].CursorX.SetCursorPixelPosition(new PointF(e.X, e.Y), false);
@@ -156,7 +148,6 @@ namespace MAIRecorder {
 
         }
    
- 
         private void button1_Click(object sender, EventArgs e) {
 
             switch (comboBox1.SelectedIndex) {
@@ -166,9 +157,16 @@ namespace MAIRecorder {
             }
 
         }
-        int OutDataPointer = 0;
 
-        public double[] Next(int AICount) {
+        #endregion
+
+        #endregion
+
+        #region internal
+
+        #region methods
+
+        internal double[] Next(int AICount) {
             if (AICount < 1)
                 return new double[]{};
             double[] tmp ;
@@ -203,9 +201,34 @@ namespace MAIRecorder {
 
             return ret;
         
-        }   
-        
-        public string LabelName {
+        }
+
+        internal void Init() {
+            comboBox1.SelectedIndex = 0;
+            if (MinimumRange == 0) {
+                numericUpDownOffset.Value = 5;
+                numericUpDownAmplitude.Value = 5;
+            }
+            InsertSine(SampleRate);
+        }
+
+        internal void SetNewWidth(int AINewWidth) {
+            this.Width = AINewWidth;
+            this.Height = AINewWidth / 3;
+            if (this.Height > 250)
+                this.Height = 250;
+        }
+
+        #endregion
+
+        #region properties
+
+        internal int MinimumRange {
+            get;
+            set;
+        }
+
+        internal string LabelName {
             get {
                 return gbKanalName.Text;
             }
@@ -214,7 +237,7 @@ namespace MAIRecorder {
             }
         }
 
-        public bool Active {
+        internal bool Active {
             get {
                 return checkBox1.Checked;
             }
@@ -222,7 +245,8 @@ namespace MAIRecorder {
                 checkBox1.Checked = value;
             }
         }
-        public bool ActiveEnabled {
+
+        internal bool ActiveEnabled {
             get {
                 return checkBox1.Enabled;
             }
@@ -231,34 +255,38 @@ namespace MAIRecorder {
             }
         }
 
-        public int SampleRate {
+        internal int SampleRate {
             get;
             set;
         }
 
-        public MAIMeasurementChannelDA MChannel {
+        internal MAIMeasurementChannelDA MChannel {
             get;
             set;
         }
 
-        public MAIChannelDA Channel {
+        internal MAIChannelDA Channel {
             get;
             set;
         }
 
+        #endregion
 
-        public void  SetNewWidth(int AINewWidth){
-            this.Width = AINewWidth;
-            this.Height = AINewWidth / 3;
-            if (this.Height > 250)
-                this.Height = 250;
-        }
-        public int MinimumRange {
-            get;
-            set;
-        }
+        #endregion
 
+        #region public
 
+        public UCFuncGenChan() {
+
+            InitializeComponent();
+            meh = new System.Windows.Forms.MouseEventHandler(this.chart1_MouseMove);
+            this.chart1.MouseMove += meh;
+            SampleRate = 1000;
+            MinimumRange = -10;
+
+        } 
+
+        #endregion
        
     }
 }

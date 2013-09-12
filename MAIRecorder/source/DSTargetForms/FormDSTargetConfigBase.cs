@@ -11,11 +11,32 @@ using Goldammer;
 
 namespace MAIRecorder {
     public partial class FormDSTargetConfigBase : Form {
+
+        #region private
+
+        private void button1_Click(object sender, EventArgs e) {
+            CreateTarget();
+        } 
+
+        #endregion
+
+        #region protected
+
+        protected IDataSinkTarget m_target;
+
+        protected String m_TargetFileName = "not set.";
+
+        protected virtual void CreateTarget() {
+        } 
+
+        #endregion
+
+        #region public
+        
         public FormDSTargetConfigBase() {
             InitializeComponent();
         }
-        protected IDataSinkTarget m_target;
-        protected String m_TargetFileName = "not set.";
+
         public static IDataSinkTarget ShowAsDialog(string AIMenuText, out string AOString) {
             FormDSTargetConfigBase dts = null;
             AOString = "not set.";
@@ -32,21 +53,17 @@ namespace MAIRecorder {
                 dts = new FormDSTargetDB();
             if (AIMenuText.StartsWith("WAV"))
                 dts = new FormDSTargetWAV();
-            if (dts == null){
+            if (dts == null) {
                 return null;
             }
-            if (dts.ShowDialog() == DialogResult.OK){
+            if (dts.ShowDialog() == DialogResult.OK) {
                 AOString = dts.m_TargetFileName;
                 return dts.m_target;
             }
             return null;
         }
-
-        protected virtual void CreateTarget() { 
-        }
-
-        private void button1_Click(object sender, EventArgs e) {
-            CreateTarget();
-        }
+     
+        #endregion
+     
     }
 }

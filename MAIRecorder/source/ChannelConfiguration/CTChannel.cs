@@ -11,13 +11,39 @@ using System.Threading;
 
 namespace MAIRecorder {
     public partial class CTChannel : UserControl {
-        public CTChannel() {
-            InitializeComponent();
+
+        #region private
+
+        #region fields
+
+        private MAIMeasurementChannelCT m_measchan;
+        private MAIChannelCT m_channel;
+        private string m_MeasurementType = "None";
+        private CardWindow m_ParentForm;
+        private CTSetup myConfi;
+        #endregion
+
+        #region ui_event_handlers
+
+        private void CTChannel_MouseClick(object sender, MouseEventArgs e) {
+            ShowConfig();
         }
-        MAIMeasurementChannelCT m_measchan;
-        MAIChannelCT m_channel;
-        internal CardWindow m_ParentForm;
-        public MAIChannelCT Channel {
+
+        #endregion
+
+        #endregion
+
+        #region internal
+        
+        #region properties
+
+        internal CardWindow ParentForm {
+            get {
+                return m_ParentForm;
+            }
+        }
+
+        internal MAIChannelCT Channel {
             get {
                 return m_channel;
             }
@@ -27,91 +53,94 @@ namespace MAIRecorder {
             }
         }
 
-        public CTChannel(MAIChannelCT AIChannel, CardWindow AIParentForm) {
-            m_ParentForm = AIParentForm;
-           // AIChannel.MyDevice.Properties.CTChannels[AIChannel.HardwareChannelNumber].CounterType
-            InitializeComponent();
-            Channel = AIChannel;
-            ADSync = true;
-            if (!Channel.IsUniversal) {
-                if (Channel.IsIncremental)
-                    Mode = CounterMode.INCREMENTALCOUNTER;
-                else if(Channel.IsIncrementalExtension)
-                    Mode = CounterMode.INCEEXTTIMESTAMP;
+        internal CounterMode Mode {
+            get;
+            set;
+        }
 
+        internal SignalEdge Edge {
+            get;
+            set;
+        }
+
+        internal FrequencyCounterResolution FCResolution {
+            get;
+            set;
+        }
+
+        internal CounterResolution Resolution {
+            get;
+            set;
+        }
+
+        internal bool SoftwareReset {
+            get;
+            set;
+        }
+
+        internal bool SynchronizedToADChannellist {
+            get;
+            set;
+        }
+
+        internal uint PresetValue {
+            get;
+            set;
+        }
+
+        internal ImpulseDirection UpOrDown {
+            get;
+            set;
+        }
+
+        internal IncrementalCounterTimestampResolution IncTimestampResolution {
+            get;
+            set;
+        }
+
+        internal HardwareResetMode HWResetMode {
+            get;
+            set;
+        }
+
+        internal IncrementalCounterHardwareResetEdge HWResetEdge {
+            get;
+            set;
+        }
+
+        internal IncrementalCounterInterpolationMode InterpolationMode {
+            get;
+            set;
+        }
+
+        internal bool ADSync {
+            get;
+            set;
+        }
+
+        internal MAIMeasurementChannelCT MChan {
+            get {
+                return m_measchan;
             }
-            else 
-                Mode = CounterMode.IMPULSECOUNTER;
-            CreateTmpMeaschan();
-           //Channel.Mode
-           
-            
         }
 
-        public CounterMode Mode {
-            get;
-            set;
-        }
-         public SignalEdge Edge {
-            get;
-            set;
-        }
-        public FrequencyCounterResolution FCResolution {
-            get;
-            set;
-        }
-          public CounterResolution Resolution {
-            get;
-            set;
-        }
-        public bool SoftwareReset {
-            get;
-            set;
-        }
-         public bool SynchronizedToADChannellist {
-            get;
-            set;
-        }
-        public uint PresetValue {
-            get;
-            set;
+        #endregion
+
+        #region methods
+
+        internal void ShowConfig() {
+
+            myConfi = new CTSetup(this);
+
+            myConfi.Location = new Point(Cursor.Position.X - 100, Cursor.Position.Y - myConfi.Height / 2);
+            myConfi.gbCTMode.Text = labelChannel.Text + " Mode";
+
+            myConfi.Show();
+
         }
 
-        public ImpulseDirection UpOrDown {
-            get;
-            set;
-        }
-
-        public IncrementalCounterTimestampResolution IncTimestampResolution {
-            get;
-            set;
-        }
-            
-        public HardwareResetMode HWResetMode {
-            get;
-            set;
-        }
-            
-        public IncrementalCounterHardwareResetEdge HWResetEdge {
-            get;
-            set;
-        }
-
-        public IncrementalCounterInterpolationMode InterpolationMode {
-            get;
-            set;
-        }
-
-        public bool ADSync {
-            get;
-            set;
-        }
-
-
-        internal void Update() {
+        internal void UpdateText() {
             try {
-                
-                
                 textBox1.Text = m_measchan.ReadSingleValue().ToString();
                 //Channel.MyDevice.ClearAllChannelLists();
             }
@@ -129,7 +158,7 @@ namespace MAIRecorder {
                 case CounterMode.FREQUENCYCOUNTER:
                 m_measchan = Channel.CreateFrequencyCounter(Edge, FCResolution, ADSync);
                 m_MeasurementType = "Frequency";
-                
+
                 break;
                 case CounterMode.PULSEWIDTHCOUNTER:
                 m_measchan = Channel.CreatePulswidthCounter(Edge, Resolution, ADSync);
@@ -166,36 +195,49 @@ namespace MAIRecorder {
             }
             return m_measchan;
         }
-        string m_MeasurementType = "None";
-        public String GetMeasurementType() {
+
+        internal String GetMeasurementType() {
             return m_MeasurementType;
         }
-        public String GetMeasurementChannelCaption() {
+
+        internal String GetMeasurementChannelCaption() {
             return labelChannel.Text;
         }
 
-        private void CTChannel_MouseClick(object sender, MouseEventArgs e) {
-            ShowConfig();
 
+        #endregion
+
+        #endregion
+
+        #region public
+
+        public CTChannel() {
+            InitializeComponent();
         }
-        CTSetup myConfi;
 
-        internal MAIMeasurementChannelCT MChan {
-            get {
-                return m_measchan;
+        public CTChannel(MAIChannelCT AIChannel, CardWindow AIParentForm) {
+            m_ParentForm = AIParentForm;
+            // AIChannel.MyDevice.Properties.CTChannels[AIChannel.HardwareChannelNumber].CounterType
+            InitializeComponent();
+            Channel = AIChannel;
+            ADSync = true;
+            if (!Channel.IsUniversal) {
+                if (Channel.IsIncremental)
+                    Mode = CounterMode.INCREMENTALCOUNTER;
+                else if (Channel.IsIncrementalExtension)
+                    Mode = CounterMode.INCEEXTTIMESTAMP;
+
             }
-        }
+            else
+                Mode = CounterMode.IMPULSECOUNTER;
+            CreateTmpMeaschan();
+            //Channel.Mode
 
-        internal void ShowConfig() {
-            myConfi = new CTSetup(this);
 
-            myConfi.Location = new Point(Cursor.Position.X-100,Cursor.Position.Y -myConfi.Height / 2);
-            myConfi.gbCTMode.Text = labelChannel.Text + " Mode";
-          
-            myConfi.Show();
-           
-          
-          
         }
+        
+        #endregion
+
+
     }
 }

@@ -9,11 +9,13 @@ using System.Windows.Forms;
 
 namespace MAIRecorder {
     public partial class ADChannel : UserControl {
+
         public ADChannel() {
             InitializeComponent();
         }
     
         private int n_ChannelNr;
+
         public int Number{
             get{
                 return n_ChannelNr;
@@ -22,8 +24,6 @@ namespace MAIRecorder {
                 n_ChannelNr = value;
                 labelChannel.Text = "K" + string.Format("{0:00}", n_ChannelNr);
             }
-
-        
         }
     }
 }

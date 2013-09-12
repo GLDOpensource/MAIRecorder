@@ -41,7 +41,6 @@
             this.textBoxValue.Size = new System.Drawing.Size(138, 38);
             this.textBoxValue.TabIndex = 0;
             this.textBoxValue.Text = "00000000";
-            this.textBoxValue.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxValue_MouseClick);
             // 
             // labelChannel
             // 
@@ -52,7 +51,6 @@
             this.labelChannel.Size = new System.Drawing.Size(64, 25);
             this.labelChannel.TabIndex = 1;
             this.labelChannel.Text = "CT01";
-            this.labelChannel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxValue_MouseClick);
             // 
             // labelChanneltype
             // 
@@ -63,7 +61,6 @@
             this.labelChanneltype.Size = new System.Drawing.Size(33, 13);
             this.labelChanneltype.TabIndex = 2;
             this.labelChanneltype.Text = "(type)";
-            this.labelChanneltype.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxValue_MouseClick);
             // 
             // label1
             // 
@@ -74,7 +71,6 @@
             this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "ADSync";
-            this.label1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxValue_MouseClick);
             // 
             // UCConterValue
             // 
@@ -90,7 +86,6 @@
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "UCConterValue";
             this.Size = new System.Drawing.Size(214, 53);
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxValue_MouseClick);
             this.ResumeLayout(false);
             this.PerformLayout();
 

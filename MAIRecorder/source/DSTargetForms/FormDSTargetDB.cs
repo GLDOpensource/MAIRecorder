@@ -13,37 +13,14 @@ using System.Data.SqlClient;
 
 namespace MAIRecorder {
     public partial class FormDSTargetDB : MAIRecorder.FormDSTargetConfigBase {
-        public FormDSTargetDB() {
-            InitializeComponent();
-           // 
-         
-            textBoxSqlCeFile.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\TestOutput.mdf";
-        }
 
+        #region private
 
-        SqlConnection m_conn = null;
+        #region fields
+        private SqlConnection m_conn = null; 
+        #endregion
 
-        protected override void CreateTarget() {
-            m_target = null;
-
-            if (radioButtonCE.Checked) {
-                if (File.Exists(textBoxSqlCeFile.Text))
-                    File.Delete(textBoxSqlCeFile.Text);
-                m_target = MAIDataSinkTarget.CreateTargetSQLCeFile(textBoxSqlCeFile.Text);
-                m_TargetFileName = Path.GetFileName(textBoxSqlCeFile.Text) + " (SQLCeFile)";
-            }
-            else {
-                DateTime NOW = DateTime.Now;
-                string MDTable = "MD_" + GetTableNameForNOW(NOW);
-                string CITable = "CI_" + GetTableNameForNOW(NOW);
-                CreateConnectionAndDB();
-                if (m_conn != null) {
-                    m_TargetFileName = m_conn.Database +" on " + m_conn.DataSource + " (SQL DB)";
-                    m_target = MAIDataSinkTarget.CreateTargetSQLServer(m_conn, "Measurements", MDTable, CITable, false);
-                }
-            }
-
-        }
+        #region ui_event_handlers
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e) {
 
@@ -70,14 +47,18 @@ namespace MAIRecorder {
             CreateConnectionAndDB();
             if (m_conn != null)
                 MessageBox.Show("Database found or created sucessfully.", "Connection is valid");
-        }
+        } 
+
+        #endregion
+
+        #region methods
 
         private void CreateConnectionAndDB() {
             try {
                 m_conn = new SqlConnection(textBoxServer.Text);
                 m_conn.Open();
                 SqlCommand exists = m_conn.CreateCommand();
-                string dbname = textBoxDBName.Text.Replace(" ","").Trim();
+                string dbname = textBoxDBName.Text.Replace(" ", "").Trim();
                 exists.CommandText = "if not exists(select * from sys.databases where name = '" + dbname + "') create database " + dbname + ";";
 
                 exists.ExecuteNonQuery();
@@ -85,7 +66,7 @@ namespace MAIRecorder {
             }
             catch (Exception x) {
                 m_conn = null;
-                MessageBox.Show( x.Message);
+                MessageBox.Show(x.Message);
             }
 
         }
@@ -101,6 +82,44 @@ namespace MAIRecorder {
             return tablename;
         }
 
-     
+        #endregion
+
+        #endregion
+
+        #region protected
+
+        protected override void CreateTarget() {
+            m_target = null;
+
+            if (radioButtonCE.Checked) {
+                if (File.Exists(textBoxSqlCeFile.Text))
+                    File.Delete(textBoxSqlCeFile.Text);
+                m_target = MAIDataSinkTarget.CreateTargetSQLCeFile(textBoxSqlCeFile.Text);
+                m_TargetFileName = Path.GetFileName(textBoxSqlCeFile.Text) + " (SQLCeFile)";
+            }
+            else {
+                DateTime NOW = DateTime.Now;
+                string MDTable = "MD_" + GetTableNameForNOW(NOW);
+                string CITable = "CI_" + GetTableNameForNOW(NOW);
+                CreateConnectionAndDB();
+                if (m_conn != null) {
+                    m_TargetFileName = m_conn.Database + " on " + m_conn.DataSource + " (SQL DB)";
+                    m_target = MAIDataSinkTarget.CreateTargetSQLServer(m_conn, "Measurements", MDTable, CITable, false);
+                }
+            }
+
+        }
+
+        #endregion
+
+        #region public
+
+        public FormDSTargetDB() {
+            InitializeComponent();
+            textBoxSqlCeFile.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\TestOutput.mdf";
+        } 
+
+        #endregion
+
     }
 }

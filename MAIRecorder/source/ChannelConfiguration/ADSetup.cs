@@ -10,11 +10,14 @@ using Goldammer;
 
 namespace MAIRecorder {
     public partial class ADSetup : Form {
+
+        private ADChannelSmall m_Parent;
+
         public ADSetup() {
             InitializeComponent();
         }
-        ADChannelSmall m_Parent;
-         public ADSetup(ADChannelSmall AIParent) {
+         
+        public ADSetup(ADChannelSmall AIParent) {
             m_Parent = AIParent;
             InitializeComponent();
              comboBoxGain.SelectedIndex =(int) m_Parent.GainF;
@@ -22,8 +25,7 @@ namespace MAIRecorder {
              checkBoxBipolar.Checked = m_Parent.Bipolar;
 
         }
-
-        
+       
         virtual public void ADSetup_Deactivate(object sender, EventArgs e) {
              m_Parent.GainF = (GainFactor)comboBoxGain.SelectedIndex;
              m_Parent.Oversampling = (OversamplingMode)comboBoxOversampling.SelectedIndex;

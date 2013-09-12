@@ -11,11 +11,23 @@ using System.Security.Principal;
 
 namespace MAIRecorder {
     public partial class FormDSTargetTDMS : MAIRecorder.FormDSTargetConfigBase {
-        public FormDSTargetTDMS() {
-            InitializeComponent();
-            textBoxFilenameMain.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Output.tdms";
-            textBoxAuthor.Text = WindowsIdentity.GetCurrent().Name;
-        }
+
+        #region private
+
+        private void buttonSetFilename_Click(object sender, EventArgs e) {
+            saveFileDialog1.Title = "Select data output file";
+            saveFileDialog1.InitialDirectory = Path.GetDirectoryName(textBoxFilenameMain.Text);
+            saveFileDialog1.FileName = Path.GetFileName(textBoxFilenameMain.Text);
+            if (saveFileDialog1.ShowDialog() != DialogResult.OK)
+                return;
+
+            textBoxFilenameMain.Text = saveFileDialog1.FileName;
+        } 
+
+        #endregion
+
+        #region protected
+
         protected override void CreateTarget() {
             if (File.Exists(textBoxFilenameMain.Text))
                 File.Delete(textBoxFilenameMain.Text);
@@ -25,17 +37,19 @@ namespace MAIRecorder {
                 File.Delete(textBoxFilenameMain.Text + ".log");
             m_target = MAIDataSinkTarget.CreateTargetTDMS(Path.GetDirectoryName(textBoxFilenameMain.Text) + "\\" + Path.GetFileNameWithoutExtension(textBoxFilenameMain.Text), textBoxMTitle.Text, textBoxMDesc.Text, textBoxFTitlte.Text, textBoxAuthor.Text);
             m_TargetFileName = Path.GetFileNameWithoutExtension(textBoxFilenameMain.Text) + " (TDMS File)";
-       
+
         }
 
-        private void buttonSetFilename_Click(object sender, EventArgs e) {
-            saveFileDialog1.Title = "Select data output file";
-            saveFileDialog1.InitialDirectory = Path.GetDirectoryName(textBoxFilenameMain.Text);
-            saveFileDialog1.FileName = Path.GetFileName(textBoxFilenameMain.Text);
-            if (saveFileDialog1.ShowDialog() != DialogResult.OK)
-                return;
-            
-            textBoxFilenameMain.Text = saveFileDialog1.FileName;
-        }
+        #endregion
+
+        #region public
+
+        public FormDSTargetTDMS() {
+            InitializeComponent();
+            textBoxFilenameMain.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Output.tdms";
+            textBoxAuthor.Text = WindowsIdentity.GetCurrent().Name;
+        } 
+
+        #endregion
     }
 }

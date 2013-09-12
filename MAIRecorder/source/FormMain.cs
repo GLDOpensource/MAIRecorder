@@ -11,25 +11,21 @@ using Goldammer.Controls;
 
 namespace MAIRecorder {
     public partial class Form1 : Form {
-        public Form1() {
-            InitializeComponent();
-            GetDevices();
-        }
+
+        #region private
+
+        #region fields
+
+        private MAIDevice m_selected;
+        private DataTable m_dtCardProperties;
+
+        #endregion
+
+        #region ui_event_handler
 
         private void button1_Click(object sender, EventArgs e) {
             GetDevices();
         }
-
-        private void GetDevices() {
-            listBox1.Items.Clear();
-            List<MAIDevice> tmp =   MAI.GetDeviceList();
-            listBox1.Items.AddRange(MAI.GetSerialNumbersOfAllInstalledDevices().ToArray());
-            if (listBox1.Items.Count > 0)
-                listBox1.SelectedIndex = 0;
-        }
-
-        MAIDevice m_selected;
-        DataTable m_dtCardProperties;
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e) {
 
@@ -116,60 +112,20 @@ namespace MAIRecorder {
             }
         }
 
-        private void ShowMeasureform(MAIDevice AIDevice) {
-            if(AIDevice.IsAudioDevice)
-                AudioCardWindow.Show(AIDevice);     
-            else        
-                CardWindow.Show(AIDevice);
-        }
-
-    
-
-        //private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e) {
-        //    var dataObject = new System.Windows.Forms.DataObject();
-        //    var bytes = System.Text.Encoding.UTF8.GetBytes(ToText(m_dtCardProperties, ","));
-        //    var stream = new System.IO.MemoryStream(bytes);
-        //    dataObject.SetData(DataFormats.CommaSeparatedValue, stream);
-        //    Clipboard.SetDataObject(dataObject, true);
-        //}
-
-     
-        private void toolStripMenuItem1_Click(object sender, EventArgs e) {
-            var dataObject = new System.Windows.Forms.DataObject();
-            dataObject.SetData(DataFormats.Text, ToText(m_dtCardProperties,"\t"));
-            Clipboard.SetDataObject(dataObject, true);
-        }
-
-        private string ToText(DataTable AITable, string AIColumnSeparator) {
-            StringBuilder sb = new StringBuilder();
-            if (AITable == null)
-                return "";
-            foreach (DataRow r in AITable.Rows) {
-
-                for (int i = 0; i < AITable.Columns.Count; i++) {
-                    sb.Append(r[i].ToString());
-                    sb.Append(AIColumnSeparator);
-                }
-
-                sb.AppendLine();
-            }
-            return sb.ToString();
-        }
-
         private void button2_Click(object sender, EventArgs e) {
             FormAddETH.Show();
 
-            
+
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e) {
             //DataGridPrinter dgp = new DataGridPrinter(dgvCardProperties);
-          
+
             //dgp.HeaderText = "Some text";
             //dgp.HeaderHeightPercent = 10;
             //dgp.FooterHeightPercent = 5;
             //dgp.InterSectionSpacingPercent = 2;
-      
+
             //printPreviewDialog1.Document = dgp.PrintDocument;
             //if(printPreviewDialog1.ShowDialog() == DialogResult.OK) 
             //    dgp.Print();
@@ -187,23 +143,65 @@ namespace MAIRecorder {
             foreach (string ser in MAI.GetSerialNumbersOfAllInstalledDevices()) {
                 order += ser + "%0A";
             }
-            order +=  Environment.NewLine;
+            order += Environment.NewLine;
             order += "%0A%0ABitte senden sie mir ein Angebot, das  MAIExtensionDAQ Lizenzen für diese Geräte umfasst.%0A%0A";
             order += "Mit freundlichen Grüßen %0A%0A";
             System.Diagnostics.Process.Start(order);
         }
+     
+        private void toolStripMenuItem1_Click(object sender, EventArgs e) {
+            var dataObject = new System.Windows.Forms.DataObject();
+            dataObject.SetData(DataFormats.Text, ToText(m_dtCardProperties,"\t"));
+            Clipboard.SetDataObject(dataObject, true);
+        }
 
-    
+        #endregion
+         
+        #region methods
 
-   
-        //private void pictureBox1_Resize(object sender, EventArgs e) {
-        //    panel1.Height = pictureBox1.Height;
-        //}
+        private void ShowMeasureform(MAIDevice AIDevice) {
+            if(AIDevice.IsAudioDevice)
+                AudioCardWindow.Show(AIDevice);     
+            else        
+                CardWindow.Show(AIDevice);
+        }
 
-        //private void timer1_Tick(object sender, EventArgs e) {
-        //    foreach(ADChannelSmall nc in flowLayoutPanel1.Controls)
-        //       nc.UpdateVolt();
-            
-        //}
+        private void GetDevices() {
+            listBox1.Items.Clear();
+            List<MAIDevice> tmp = MAI.GetDeviceList();
+            listBox1.Items.AddRange(MAI.GetSerialNumbersOfAllInstalledDevices().ToArray());
+            if (listBox1.Items.Count > 0)
+                listBox1.SelectedIndex = 0;
+        }
+ 
+        private string ToText(DataTable AITable, string AIColumnSeparator) {
+            StringBuilder sb = new StringBuilder();
+            if (AITable == null)
+                return "";
+            foreach (DataRow r in AITable.Rows) {
+
+                for (int i = 0; i < AITable.Columns.Count; i++) {
+                    sb.Append(r[i].ToString());
+                    sb.Append(AIColumnSeparator);
+                }
+
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region public
+
+        public Form1() {
+            InitializeComponent();
+            GetDevices();
+        }
+
+        #endregion
+
     }
 }

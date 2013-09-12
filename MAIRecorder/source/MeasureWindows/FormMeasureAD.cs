@@ -13,55 +13,163 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace MAIRecorder {
     public partial class FormMeasureAD : Form {
-        public FormMeasureAD() {
-            InitializeComponent();
-        }
-        CardWindow m_ParentWindow;
-        public FormMeasureAD(CardWindow AIParentWindow) {
 
-            InitializeComponent();
-            m_ParentWindow = AIParentWindow;
-            m_ParentWindow.checkBoxUpdate.Checked = false;
-            foreach (ADChannelSmall a in m_ParentWindow.flpADChannels.Controls) {
-                ToolStripMenuItem it = (ToolStripMenuItem)menuStrip1.Items["channelsToolStripMenuItem"];
-                ToolStripMenuItem ni = (ToolStripMenuItem)it.DropDownItems.Add(a.labelChannel.Text);
-                ni.Tag     = a;
-                ni.Checked = true;
-                ni.CheckOnClick = true;
-                ni.CheckStateChanged += new EventHandler(ni_CheckStateChanged);
+        #region private
+
+        #region fields
+
+        private CardWindow m_ParentWindow;
+
+        #endregion
+
+        #region ui_event_handler
+
+        private void ni_CheckStateChanged(object sender, EventArgs e) {
+            Reconfigure(m_ParentWindow.MAIDevice.ADChannels.DataSink.Target);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e) {
+            try {
+                int i = 0;
+                m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.Update();    // Preview aktualisieren
+                if (chartsToolStripMenuItem.Checked)
+                    foreach (Series s in chart1.Series) {  // für alle Graphen
+                        s.Points.DataBindXY(m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.Timestamps, m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview[i/*s.Name+" [Volt]"*/]); // Setze die Punkte aus dem Datasink Preview
+                        i++;
+                    }
+                else {
+
+                    chart1.Series["RMS"].Points.DataBindXY(m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.DataColumnNames, m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.RootMeanSquares);
+                }
+
             }
-          
-            Reconfigure(null);
+            catch {
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e) {
+            if (checkBox1.Checked) {
+                if (!m_ParentWindow.MAIDevice.HasDatasinkLicense)
+                    MessageBox.Show("license file not fond. Will record invalid data !!", "license file not fond");
+                menuStrip1.Enabled = false;
+
+            }
+            else {
+                menuStrip1.Enabled = true;
+            }
+
+            m_ParentWindow.MAIDevice.ADChannels.DataSink.OutputEnabled = checkBox1.Checked;
+            Color tmp = checkBox1.ForeColor;
+            checkBox1.ForeColor = checkBox1.BackColor;
+            checkBox1.BackColor = tmp;
+        }
+
+        private void rAWToolStripMenuItem_CheckedChanged(object sender, EventArgs e) {
 
         }
 
-        void ni_CheckStateChanged(object sender, EventArgs e) {
-            Reconfigure(m_ParentWindow.m_maiDevice.ADChannels.DataSink.Target);
+        private void tDMSToolStripMenuItem_Click(object sender, EventArgs e) {
+            string recTarget = "";
+            IDataSinkTarget t = FormDSTargetConfigBase.ShowAsDialog((sender as ToolStripMenuItem).Text, out recTarget);
+            if (t == null)
+                return;
+            Reconfigure(t);
+            tbRecTarget.Text = recTarget;
+
+            if ((sender as ToolStripMenuItem).Checked)
+                return;
+
+            foreach (ToolStripMenuItem mi in fileToolStripMenuItem.DropDownItems) {
+                mi.Checked = false;
+            }
+            (sender as ToolStripMenuItem).Checked = true;
+            foreach (ToolStripMenuItem mi in fileToolStripMenuItem.DropDownItems) {
+                if (mi.Checked)
+                    checkBox1.Enabled = true;
+            }
         }
+
+        private void trBaPreviewBufSize_Scroll(object sender, EventArgs e) {
+            try {
+                m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.Enabled = false;
+                m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.MaxTickCount = (uint)trBaPreviewBufSize.Value;
+                m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.Enabled = true;
+                labelPrevSize.Text = trBaPreviewBufSize.Value.ToString();
+                SetPrevTimeLabel();
+
+            }
+            catch (Exception x) {
+                MessageBox.Show(x.Message);
+            }
+
+        }
+
+        private void trBaPrevSampleRate_Scroll(object sender, EventArgs e) {
+            try {
+                m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.Enabled = false;
+                m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.TickFrequency = (double)trBaPrevSampleRate.Value;
+                m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.Enabled = true;
+                labelPrevRate.Text = trBaPrevSampleRate.Value.ToString();
+                SetPrevTimeLabel();
+
+            }
+            catch (Exception x) {
+                MessageBox.Show(x.Message);
+            }
+        }
+
+        private void valuesRMSToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (valuesRMSToolStripMenuItem.Checked)
+                return;
+            timer1.Enabled = false;
+            chartsToolStripMenuItem.Checked = false;
+            valuesRMSToolStripMenuItem.Checked = true;
+            SetUpChart();
+            SetUpPrevPresets();
+
+            timer1.Enabled = true;
+        }
+
+        private void chartsToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (chartsToolStripMenuItem.Checked)
+                return;
+            timer1.Enabled = false;
+            chartsToolStripMenuItem.Checked = true;
+            valuesRMSToolStripMenuItem.Checked = false;
+            SetUpChart();
+            SetUpPrevPresets();
+
+            timer1.Enabled = true;
+        }
+
+        #endregion
+
+
+        #region methods
 
         private void Reconfigure(IDataSinkTarget AITarget) {
             timer1.Enabled = false;
-            m_ParentWindow.m_maiDevice.ADChannels.DataSink.Disable();
-            m_ParentWindow.m_maiDevice.StopMeasure();
+            m_ParentWindow.MAIDevice.ADChannels.DataSink.Disable();
+            m_ParentWindow.MAIDevice.StopMeasure();
 
-            m_ParentWindow.m_maiDevice.ClearAllChannelLists();
+            m_ParentWindow.MAIDevice.ClearAllChannelLists();
 
             ToolStripMenuItem it = (ToolStripMenuItem)menuStrip1.Items["channelsToolStripMenuItem"];
             foreach (ToolStripMenuItem mi in it.DropDownItems) {
                 if (mi.Checked)
                     (mi.Tag as ADChannelSmall).CreateMeasurementChannel();
-            
+
             }
-          
+
 
             SetUpChart();
             double sr = (double)m_ParentWindow.numericUpDownADSamplerate.Value;
-            m_ParentWindow.m_maiDevice.ADChannels.SetSampleRate(sr);
-            m_ParentWindow.m_maiDevice.ADChannels.DataSink.Target = AITarget;
+            m_ParentWindow.MAIDevice.ADChannels.SetSampleRate(sr);
+            m_ParentWindow.MAIDevice.ADChannels.DataSink.Target = AITarget;
 
-            m_ParentWindow.m_maiDevice.ConfigMeasure();
-            m_ParentWindow.m_maiDevice.ADChannels.DataSink.Enable(DateTime.Now);  // Datasink starten
-            m_ParentWindow.m_maiDevice.StartMeasure();
+            m_ParentWindow.MAIDevice.ConfigMeasure();
+            m_ParentWindow.MAIDevice.ADChannels.DataSink.Enable(DateTime.Now);  // Datasink starten
+            m_ParentWindow.MAIDevice.StartMeasure();
             SetUpPrevPresets();
 
 
@@ -78,13 +186,13 @@ namespace MAIRecorder {
             trBaPrevSampleRate.Maximum = (int)sr;
 
             // jetzt das Preview konfigurieren:
-            m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.Enabled = false;
+            m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.Enabled = false;
 
-            m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.MaxTickCount = (uint)initialPrevBufSize;
-            m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.TickFrequency = prevR;
-            m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.Enabled = true;
+            m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.MaxTickCount = (uint)initialPrevBufSize;
+            m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.TickFrequency = prevR;
+            m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.Enabled = true;
             // und nur Daten aufzeichnen, wenn "Recording" im UI aktiviert ist:
-            m_ParentWindow.m_maiDevice.ADChannels.DataSink.OutputEnabled = checkBox1.Checked;
+            m_ParentWindow.MAIDevice.ADChannels.DataSink.OutputEnabled = checkBox1.Checked;
             timer1.Enabled = true;
             trBaPreviewBufSize.Value = initialPrevBufSize;
             trBaPrevSampleRate.Value = (int)prevR;
@@ -94,7 +202,7 @@ namespace MAIRecorder {
         }
 
         private void SetPrevTimeLabel() {
-            labelPrevTime.Text = (m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.MaxTickCount / m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.TickFrequency).ToString();
+            labelPrevTime.Text = (m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.MaxTickCount / m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.TickFrequency).ToString();
         }
 
         private void SetUpChart() {
@@ -105,7 +213,7 @@ namespace MAIRecorder {
             ChartArea na;
             if (chartsToolStripMenuItem.Checked) {
                 Series ns;
-                foreach (MAIMeasurementChannelAD c in m_ParentWindow.m_maiDevice.ADChannels.GetMeasurementChannels()) {
+                foreach (MAIMeasurementChannelAD c in m_ParentWindow.MAIDevice.ADChannels.GetMeasurementChannels()) {
                     ns = chart1.Series.Add(c.Name);
                     ns.ChartType = SeriesChartType.FastLine;
                     ns.Color = Color.Red;
@@ -140,7 +248,7 @@ namespace MAIRecorder {
                 chart1.Titles.Add(t);
 
                 t.DockedToChartArea = "RMS";
-   //             na.AxisX.LabelStyle.Enabled = false;
+                //             na.AxisX.LabelStyle.Enabled = false;
                 na.AxisX.MajorTickMark.Enabled = false;
                 na.AxisY.MajorGrid.Interval = 1;
                 na.AxisY.MinorGrid.Interval = 1;
@@ -151,120 +259,36 @@ namespace MAIRecorder {
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e) {
-            try {
-                int i = 0;
-                m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.Update();    // Preview aktualisieren
-                if (chartsToolStripMenuItem.Checked)
-                    foreach (Series s in chart1.Series) {  // für alle Graphen
-                        s.Points.DataBindXY(m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.Timestamps, m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview[i/*s.Name+" [Volt]"*/]); // Setze die Punkte aus dem Datasink Preview
-                        i++;
-                }
-                else{
-                    
-                    chart1.Series["RMS"].Points.DataBindXY(m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.DataColumnNames, m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.RootMeanSquares);
-                }
+        #endregion
 
-            }
-            catch {
-            }
+        #endregion
+
+        #region public
+
+        public FormMeasureAD() {
+            InitializeComponent();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e) {
-            if (checkBox1.Checked) {
-                if (!m_ParentWindow.m_maiDevice.HasDatasinkLicense)
-                    MessageBox.Show("license file not fond. Will record invalid data !!", "license file not fond");
-                menuStrip1.Enabled = false;
+        public FormMeasureAD(CardWindow AIParentWindow) {
 
+            InitializeComponent();
+            m_ParentWindow = AIParentWindow;
+            m_ParentWindow.checkBoxUpdate.Checked = false;
+            foreach (ADChannelSmall a in m_ParentWindow.flpADChannels.Controls) {
+                ToolStripMenuItem it = (ToolStripMenuItem)menuStrip1.Items["channelsToolStripMenuItem"];
+                ToolStripMenuItem ni = (ToolStripMenuItem)it.DropDownItems.Add(a.labelChannel.Text);
+                ni.Tag     = a;
+                ni.Checked = true;
+                ni.CheckOnClick = true;
+                ni.CheckStateChanged += new EventHandler(ni_CheckStateChanged);
             }
-            else {
-                menuStrip1.Enabled = true;
-            } 
-
-            m_ParentWindow.m_maiDevice.ADChannels.DataSink.OutputEnabled = checkBox1.Checked;
-            Color tmp = checkBox1.ForeColor;
-            checkBox1.ForeColor = checkBox1.BackColor; 
-            checkBox1.BackColor = tmp;
-        }
-
-        private void rAWToolStripMenuItem_CheckedChanged(object sender, EventArgs e) {
+          
+            Reconfigure(null);
 
         }
 
-        private void tDMSToolStripMenuItem_Click(object sender, EventArgs e) {
-            string recTarget = "";
-            IDataSinkTarget t = FormDSTargetConfigBase.ShowAsDialog((sender as ToolStripMenuItem).Text, out recTarget);
-            if (t == null)
-                return;
-            Reconfigure(t);
-            tbRecTarget.Text = recTarget;
+        #endregion
 
-            if ((sender as ToolStripMenuItem).Checked)
-                return;
 
-            foreach (ToolStripMenuItem mi in fileToolStripMenuItem.DropDownItems) {
-                mi.Checked = false;
-            }
-            (sender as ToolStripMenuItem).Checked = true;
-            foreach (ToolStripMenuItem mi in fileToolStripMenuItem.DropDownItems) {
-                if (mi.Checked)
-                    checkBox1.Enabled = true;
-            }
-        }
-
-        private void trBaPreviewBufSize_Scroll(object sender, EventArgs e) {
-            try {
-                m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.Enabled = false;
-                m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.MaxTickCount = (uint)trBaPreviewBufSize.Value;
-                m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.Enabled = true;
-                labelPrevSize.Text = trBaPreviewBufSize.Value.ToString();
-                SetPrevTimeLabel();
-
-            }
-            catch (Exception x) {
-                MessageBox.Show(x.Message);
-            }
-
-        }
-
-        private void trBaPrevSampleRate_Scroll(object sender, EventArgs e) {
-            try {
-                m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.Enabled = false;
-                m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.TickFrequency = (double)trBaPrevSampleRate.Value;
-                m_ParentWindow.m_maiDevice.ADChannels.DataSink.Preview.Enabled = true;
-                labelPrevRate.Text = trBaPrevSampleRate.Value.ToString();
-                SetPrevTimeLabel();
-            
-            }
-            catch (Exception x) {
-                MessageBox.Show(x.Message);
-            }
-        }
-
-        private void valuesRMSToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (valuesRMSToolStripMenuItem.Checked)
-                return;
-            timer1.Enabled = false;
-            chartsToolStripMenuItem.Checked = false;
-            valuesRMSToolStripMenuItem.Checked = true;
-            SetUpChart();
-            SetUpPrevPresets();
-    
-            timer1.Enabled = true;
-        }
-
-        private void chartsToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (chartsToolStripMenuItem.Checked)
-                return;
-            timer1.Enabled = false;
-            chartsToolStripMenuItem.Checked = true;
-            valuesRMSToolStripMenuItem.Checked = false;
-            SetUpChart();
-            SetUpPrevPresets();
-
-            timer1.Enabled = true;
-        }
-
-     
     }
 }

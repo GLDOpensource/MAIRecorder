@@ -10,21 +10,19 @@ using Goldammer;
 
 namespace MAIRecorder {
     public partial class CardWindow : Form {
-        public CardWindow() {
-            InitializeComponent();
-            timer1.Enabled = checkBoxUpdate.Checked;
-            timer1.Interval = (int)numericUpDown1.Value;
-            ToolTip ADToolTip = CreateTooltip("AD Channels");
-            ADToolTip.SetToolTip(flpADChannels, "Click on the Channel's name to configure it.");
-            ADToolTip.SetToolTip(panelAD, "Click on the Channel's name to configure it.");
-            ToolTip DIOToolTip = CreateTooltip("TTL Pins");
-            DIOToolTip.SetToolTip(flpDIOChannels, "Click coloured HI/LO label to switch the state of an output.");
-            DIOToolTip.SetToolTip(panelDIO, "Click coloured HI/LO label to switch the state of an output.");
+
+        #region private
+
+        #region fields
+
+        private MAIDevice m_maiDevice;
+
+        #endregion
+
+        #region methods
 
 
-        }
-
-        public ToolTip CreateTooltip(string AITitle) {
+        private ToolTip CreateTooltip(string AITitle) {
             ToolTip tt = new ToolTip();
             tt.ToolTipTitle = AITitle;
             tt.UseFading = true;
@@ -37,19 +35,11 @@ namespace MAIRecorder {
             return tt;
         }
 
-        public void checkBoxUpdate_CheckedChanged(object sender, EventArgs e) {
-            timer1.Enabled = checkBoxUpdate.Checked;
-        }
-
-        public void numericUpDown1_ValueChanged(object sender, EventArgs e) {
-            timer1.Interval = (int)numericUpDown1.Value;
-        }
-
-        public void InsertChannels(MAIDevice selected) {
+        private void InsertChannels(MAIDevice selected) {
             flpADChannels.Controls.Clear();
             for (int i = 0; i < selected.ADChannels.Count(); i++) {
                 ADChannelSmall nc = new ADChannelSmall(selected.ADChannels[i]);
-              
+
                 flpADChannels.Controls.Add(nc);
             }
             flpDAChannels.Controls.Clear();
@@ -69,70 +59,20 @@ namespace MAIRecorder {
             }
         }
 
-        public MAIDevice m_maiDevice;
+        #endregion
 
-        public static void Show(MAIDevice AIDevice) {
-            AIDevice.DAChannels.SetRange(DARange.Bipolar);
-            
-            CardWindow me = new CardWindow();
-            me.m_maiDevice = AIDevice;
-            if (me.m_maiDevice.Properties.ADChannels.Count > 0) {
-                if (me.m_maiDevice.Properties.ADChannels[0].IEPEMode > 0)
-                    me.bIEPE_OFF.Visible = true;
-            }
-            me.m_maiDevice.StopMeasure();
-            me.m_maiDevice.DAChannels.StopOutput();
-            me.m_maiDevice.ClearAllChannelLists();
-             
-          
-            bool ADVisible = AIDevice.ADChannels.Count() > 0;
-            bool DAVisible = AIDevice.DAChannels.Count() > 0; 
-            bool CTVisible = AIDevice.CTChannels.Count() > 0;
-            bool DIOVisible = AIDevice.TTLChannels.Count() > 0; 
-            bool PWMVisible = AIDevice.PWMChannels.Count > 0;
-            Panel lastVisible = null;
+        #region ui_event_handlers
 
-            me.panelAD.Visible = ADVisible;
-            me.splitterAD.Visible = ADVisible;
-            if (ADVisible)
-                lastVisible = me.panelAD;
-            me.panelDA.Visible = DAVisible;
-            me.splitterDA.Visible = DAVisible;
-            if (DAVisible) {
-                lastVisible = me.panelDA;
-            }
-            me.panelDIO.Visible = DIOVisible;
-            me.splitterDIO.Visible = DIOVisible;
-            me.splitterDIO.Enabled = DIOVisible;
-            if (DIOVisible)
-                lastVisible = me.panelDIO;
-
-            me.panelCT.Visible = CTVisible;
-
-            if (CTVisible) {
-                lastVisible = me.panelCT;
-
-            }
-            else {
-               
-                    me.splitterDIO.Visible = false;
-                    me.splitterDIO.Enabled = false;
-
-              
-            }
-            if (lastVisible != null)
-                lastVisible.Dock = DockStyle.Fill;
-            me.Text = AIDevice.Info.SerialNumber;
-            me.groupBoxDARange.Enabled = !AIDevice.IsUSBBasicDevice;
-            me.buttonDAOutput.Enabled = DAVisible;
-            me.buttonMeasrement.Enabled = ADVisible;
-            me.buttonCTMeasure.Enabled = CTVisible;
-            me.buttonPWM.Enabled = PWMVisible;
-            me.ShowDialog();
-            me.Dispose();
+        private void checkBoxUpdate_CheckedChanged(object sender, EventArgs e) {
+            timer1.Enabled = checkBoxUpdate.Checked;
         }
 
-        public void CardWindow_Load(object sender, EventArgs e) {
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e) {
+            timer1.Interval = (int)numericUpDown1.Value;
+        }
+
+ 
+        private void CardWindow_Load(object sender, EventArgs e) {
             InsertChannels(m_maiDevice);
            
           // panelCT.Height = flpCT.ClientRectangle.Height;
@@ -154,7 +94,7 @@ namespace MAIRecorder {
  
         }
 
-        public void timer1_Tick(object sender, EventArgs e) {
+        private void timer1_Tick(object sender, EventArgs e) {
             if (cbUpdateADPerm.Checked)
                 bUpdateAD.PerformClick();
             if (cbUpdateTTLPerm.Checked)
@@ -164,7 +104,7 @@ namespace MAIRecorder {
         
         }
 
-        public void radioButton2_CheckedChanged(object sender, EventArgs e) {
+        private void radioButton2_CheckedChanged(object sender, EventArgs e) {
             DARange newReange = DARange.Bipolar;
             if (radioButtonOnlyPosDA.Checked)
                 newReange = DARange.Unipolar;
@@ -174,34 +114,22 @@ namespace MAIRecorder {
 
         }
 
-        //private void ReconfigureCTChannels() {
-        //    m_maiDevice.ClearAllChannelLists();
-        //    foreach (CTChannel nc in flpCT.Controls)
-        //        nc.CreateMeasurementChannel();
-        //}
-
-        public void UpdateDaChannelsRange(DARange Range) {
+        private void UpdateDaChannelsRange(DARange Range) {
             foreach (DAChannelSmall nc in flpDAChannels.Controls)
                 nc.UpdateRange(Range);
         }
 
-        public void RecreateCTChannels() {
-            m_maiDevice.ClearAllChannelLists();
-            foreach (CTChannel nc in flpCT.Controls)
-                nc.CreateTmpMeaschan();
-        }
-
-        public void bUpdateAD_Click(object sender, EventArgs e) {
+        private void bUpdateAD_Click(object sender, EventArgs e) {
             foreach (ADChannelSmall nc in flpADChannels.Controls)
                 nc.UpdateVolt();
         }
 
-        public void bUpdateTTL_Click(object sender, EventArgs e) {
+        private void bUpdateTTL_Click(object sender, EventArgs e) {
             foreach (DIOChannel nc in flpDIOChannels.Controls)
                 nc.UpdateState(false);
         }
 
-        public void bUpdateCT_Click(object sender, EventArgs e) {
+        private void bUpdateCT_Click(object sender, EventArgs e) {
             if (flpCT.Controls.Count != m_maiDevice.CTChannels.GetMeasurementChannels().Count) {
                 foreach (CTChannel nc in flpCT.Controls)
                     nc.CreateTmpMeaschan();
@@ -209,10 +137,10 @@ namespace MAIRecorder {
             }
 
             foreach (CTChannel nc in flpCT.Controls) 
-                nc.Update();
+                nc.UpdateText();
         }
 
-        public void CardWindow_FormClosed(object sender, FormClosedEventArgs e) {
+        private void CardWindow_FormClosed(object sender, FormClosedEventArgs e) {
             try {
                 if (m_maiDevice != null)
                     m_maiDevice.ClearAllChannelLists();
@@ -223,7 +151,7 @@ namespace MAIRecorder {
             }
         }
 
-        public void bIEPE_OFF_Click(object sender, EventArgs e) {
+        private void bIEPE_OFF_Click(object sender, EventArgs e) {
             try {
                 m_maiDevice.ADChannels.ResetIEPE();
                 foreach (ADChannelSmall nc in flpADChannels.Controls) {
@@ -237,7 +165,7 @@ namespace MAIRecorder {
             }
         }
 
-        public void buttonMeasrement_Click(object sender, EventArgs e) {
+        private void buttonMeasrement_Click(object sender, EventArgs e) {
              try{
                 FormMeasureAD mad = new FormMeasureAD(this);
                 mad.ShowDialog();
@@ -320,5 +248,110 @@ namespace MAIRecorder {
             }
         }
 
+        #endregion
+
+        #endregion
+
+        #region internal
+
+        #region methods
+
+        internal static void Show(MAIDevice AIDevice) {
+            AIDevice.DAChannels.SetRange(DARange.Bipolar);
+
+            CardWindow me = new CardWindow();
+            me.m_maiDevice = AIDevice;
+            if (me.m_maiDevice.Properties.ADChannels.Count > 0) {
+                if (me.m_maiDevice.Properties.ADChannels[0].IEPEMode > 0)
+                    me.bIEPE_OFF.Visible = true;
+            }
+            me.m_maiDevice.StopMeasure();
+            me.m_maiDevice.DAChannels.StopOutput();
+            me.m_maiDevice.ClearAllChannelLists();
+
+
+            bool ADVisible = AIDevice.ADChannels.Count() > 0;
+            bool DAVisible = AIDevice.DAChannels.Count() > 0;
+            bool CTVisible = AIDevice.CTChannels.Count() > 0;
+            bool DIOVisible = AIDevice.TTLChannels.Count() > 0;
+            bool PWMVisible = AIDevice.PWMChannels.Count > 0;
+            Panel lastVisible = null;
+
+            me.panelAD.Visible = ADVisible;
+            me.splitterAD.Visible = ADVisible;
+            if (ADVisible)
+                lastVisible = me.panelAD;
+            me.panelDA.Visible = DAVisible;
+            me.splitterDA.Visible = DAVisible;
+            if (DAVisible) {
+                lastVisible = me.panelDA;
+            }
+            me.panelDIO.Visible = DIOVisible;
+            me.splitterDIO.Visible = DIOVisible;
+            me.splitterDIO.Enabled = DIOVisible;
+            if (DIOVisible)
+                lastVisible = me.panelDIO;
+
+            me.panelCT.Visible = CTVisible;
+
+            if (CTVisible) {
+                lastVisible = me.panelCT;
+
+            }
+            else {
+
+                me.splitterDIO.Visible = false;
+                me.splitterDIO.Enabled = false;
+
+
+            }
+            if (lastVisible != null)
+                lastVisible.Dock = DockStyle.Fill;
+            me.Text = AIDevice.Info.SerialNumber;
+            me.groupBoxDARange.Enabled = !AIDevice.IsUSBBasicDevice;
+            me.buttonDAOutput.Enabled = DAVisible;
+            me.buttonMeasrement.Enabled = ADVisible;
+            me.buttonCTMeasure.Enabled = CTVisible;
+            me.buttonPWM.Enabled = PWMVisible;
+            me.ShowDialog();
+            me.Dispose();
+        }
+
+        internal void RecreateCTChannels() {
+            m_maiDevice.ClearAllChannelLists();
+            foreach (CTChannel nc in flpCT.Controls)
+                nc.CreateTmpMeaschan();
+        }
+
+        #endregion
+
+        #region properties
+
+        internal MAIDevice MAIDevice {
+            get {
+                return m_maiDevice;
+            }
+        }
+
+        #endregion
+
+
+        #endregion
+
+        #region public
+
+        public CardWindow() {
+            InitializeComponent();
+            timer1.Enabled = checkBoxUpdate.Checked;
+            timer1.Interval = (int)numericUpDown1.Value;
+            ToolTip ADToolTip = CreateTooltip("AD Channels");
+            ADToolTip.SetToolTip(flpADChannels, "Click on the Channel's name to configure it.");
+            ADToolTip.SetToolTip(panelAD, "Click on the Channel's name to configure it.");
+            ToolTip DIOToolTip = CreateTooltip("TTL Pins");
+            DIOToolTip.SetToolTip(flpDIOChannels, "Click coloured HI/LO label to switch the state of an output.");
+            DIOToolTip.SetToolTip(panelDIO, "Click coloured HI/LO label to switch the state of an output.");
+        }
+
+        #endregion
     }
 }

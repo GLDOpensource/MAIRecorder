@@ -8,11 +8,16 @@ using System.Globalization;
 namespace MAIRecorder {
     public class TAFFMatReader {
 
-       
+        #region private
         private string m_sDataPath;
+        #endregion
 
+        #region public
+
+        #region constructors
 
         public TAFFMatReader(string AIPath) {
+
             Filename = AIPath;
             m_sDataPath = Path.GetDirectoryName(AIPath);
             using (TextReader reader = File.OpenText(AIPath)) {
@@ -60,7 +65,12 @@ namespace MAIRecorder {
             }
         }
 
+        #endregion
+
+        #region methods
+
         public void ReadRaw(Int64 AIStartBurst, Int64 AINumberOfBursts, ref Array AROutputArray) {
+
             Int64 startByte = ChannelCount * AIStartBurst * 2;
             Int64 numberOfBytes = ChannelCount * AINumberOfBursts * 2;
             if (!Is16Bit) {
@@ -79,6 +89,7 @@ namespace MAIRecorder {
         }
 
         public double[] ReadScaled(uint AIChannelNumber, Int64 AIStartBurst, Int64 AINumberOfBursts,  bool AIHalveAmplitude) {
+
             if (AIChannelNumber >= ChannelCount)
                 return null;
             Array Intermediate;
@@ -107,7 +118,9 @@ namespace MAIRecorder {
             return retVal.ToArray();
         }
 
+        #endregion 
 
+        #region properties
 
         public uint BurstCount {
             private set;
@@ -123,21 +136,29 @@ namespace MAIRecorder {
             private set;
             get;
         }
+       
         public double Samplerate {
             private set;
             get;
         }
+       
         public double[] Slope {
             private set;
             get;
         }
+       
         public double[] YOffset {
             private set;
             get;
         }
+       
         public string Filename {
             private set;
-            get;  
+            get;
         }
+
+        #endregion
+
+        #endregion
     }
 }

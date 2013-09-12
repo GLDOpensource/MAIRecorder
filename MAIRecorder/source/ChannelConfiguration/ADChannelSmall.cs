@@ -10,23 +10,55 @@ using Goldammer;
 
 namespace MAIRecorder {
     public partial class ADChannelSmall : UserControl {
-        public ADChannelSmall() {
-            InitializeComponent();
-        }
 
+        #region private
 
-        public ADChannelSmall(MAIChannelAD AIChannel) {
-            InitializeComponent();
-            Channel = AIChannel;
-            Bipolar = true;
-            IEPEGain20dB = false;
-            IEPEIndex = 0;
-            if (m_Channel.MyDevice.Properties.ADChannels[(int)m_Channel.HardwareChannelNumber].IEPEMode > 0)
-                Channel.SetIEPEMode((IEPEMode)0, false);
-        }
-
+        #region fields
+        
         private MAIChannelAD m_Channel;
-        public MAIChannelAD Channel {
+
+        private Form myConfi;
+
+        #endregion
+
+        #region ui_event_handlers
+
+        private void ADChannelSmall_MouseDown(object sender, MouseEventArgs e) {
+            ShowConfig();
+
+        }
+
+        private void textBox1_MouseDown(object sender, MouseEventArgs e) {
+            ShowConfig();
+        }
+
+        private void ShowConfig() {
+            if (m_Channel.MyDevice.Properties.ADChannels[(int)m_Channel.HardwareChannelNumber].IEPEMode > 0) {
+                ADSetupIEPE Confi = new ADSetupIEPE(this);
+
+                Confi.Location = Cursor.Position;
+                Confi.checkBoxBipolar.Enabled = !(m_Channel.MyDevice.Properties.ADChannels[(int)m_Channel.HardwareChannelNumber].BipolarOnly);
+                Confi.groupBox1.Text = labelChannel.Text + " Settings";
+                Confi.Show();
+            }
+            else {
+                ADSetup Confi = new ADSetup(this);
+                Confi.Location = Cursor.Position;
+                Confi.checkBoxBipolar.Enabled = !(m_Channel.MyDevice.Properties.ADChannels[(int)m_Channel.HardwareChannelNumber].BipolarOnly);
+                Confi.groupBox1.Text = labelChannel.Text + " Settings";
+                Confi.Show();
+            }
+        }
+        
+        #endregion
+
+        #endregion
+
+        #region internal
+
+        #region properties
+
+        internal MAIChannelAD Channel {
             get {
                 return m_Channel;
             }
@@ -34,7 +66,6 @@ namespace MAIRecorder {
                 m_Channel = value;
                 labelChannel.Text = "K" + string.Format("{0:00}", m_Channel.HardwareChannelNumber);
             }
-
 
         }
 
@@ -63,47 +94,44 @@ namespace MAIRecorder {
             set;
         }
 
+        #endregion
 
-
-        Form myConfi;
-        private void ADChannelSmall_MouseDown(object sender, MouseEventArgs e) {
-            ShowConfig();
-            
-        }
-
-        private void ShowConfig() {
-            if (m_Channel.MyDevice.Properties.ADChannels[(int)m_Channel.HardwareChannelNumber].IEPEMode > 0) {
-                ADSetupIEPE Confi = new ADSetupIEPE(this);
-
-                Confi.Location = Cursor.Position;
-                Confi.checkBoxBipolar.Enabled = !(m_Channel.MyDevice.Properties.ADChannels[(int)m_Channel.HardwareChannelNumber].BipolarOnly);
-                Confi.groupBox1.Text = labelChannel.Text + " Settings";
-                Confi.Show();
-            }
-            else {
-                ADSetup Confi = new ADSetup(this);
-                Confi.Location = Cursor.Position;
-                Confi.checkBoxBipolar.Enabled = !(m_Channel.MyDevice.Properties.ADChannels[(int)m_Channel.HardwareChannelNumber].BipolarOnly);
-                Confi.groupBox1.Text = labelChannel.Text + " Settings";
-                Confi.Show();
-            }
-        }
-
-        private void textBox1_MouseDown(object sender, MouseEventArgs e) {
-            ShowConfig();
-        }
+        #region methods
 
         internal void UpdateVolt() {
             try {
-                textBox1.Text =  string.Format("{0:00.0000}",m_Channel.ReadSingleVoltage(Oversampling, GainF, Bipolar));
+                textBox1.Text = string.Format("{0:00.0000}", m_Channel.ReadSingleVoltage(Oversampling, GainF, Bipolar));
             }
             catch { }
         }
 
         internal void CreateMeasurementChannel() {
-            MAIMeasurementChannelAD nc =  Channel.CreateMeasurementChannel(Oversampling, GainF, Bipolar);
+            MAIMeasurementChannelAD nc = Channel.CreateMeasurementChannel(Oversampling, GainF, Bipolar);
             nc.Name = labelChannel.Text;
             nc.Unit = "Volt";
+        }  
+
+        #endregion
+
+        #endregion
+
+        #region public
+
+        public ADChannelSmall() {
+            InitializeComponent();
         }
+
+        public ADChannelSmall(MAIChannelAD AIChannel) {
+            InitializeComponent();
+            Channel = AIChannel;
+            Bipolar = true;
+            IEPEGain20dB = false;
+            IEPEIndex = 0;
+            if (m_Channel.MyDevice.Properties.ADChannels[(int)m_Channel.HardwareChannelNumber].IEPEMode > 0)
+                Channel.SetIEPEMode((IEPEMode)0, false);
+        }
+
+        #endregion
+
     }
 }

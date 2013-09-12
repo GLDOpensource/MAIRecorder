@@ -11,9 +11,8 @@ using System.Net;
 
 namespace MAIRecorder {
     public partial class FormAddETH : Form {
-        public FormAddETH() {
-            InitializeComponent();
-        }
+
+        #region private
 
         private void button1_Click(object sender, EventArgs e) {
             Close();
@@ -23,12 +22,12 @@ namespace MAIRecorder {
 
             IPAddress adr;
             uint port;
-            if(!IPAddress.TryParse(tbIPAddress.Text, out adr)){
+            if (!IPAddress.TryParse(tbIPAddress.Text, out adr)) {
                 MessageBox.Show("IP Adress invalid");
                 return;
             }
-              
-            if(!uint.TryParse(TbIPPort.Text, out port)){
+
+            if (!uint.TryParse(TbIPPort.Text, out port)) {
                 MessageBox.Show("TCP Port invalid");
                 return;
             }
@@ -40,18 +39,34 @@ namespace MAIRecorder {
                 MessageBox.Show("UDP Port invalid");
             }
 
-            IPEndPoint ep = new IPEndPoint(adr,(int)port);
-            try{
+            IPEndPoint ep = new IPEndPoint(adr, (int)port);
+            try {
                 MAI.Devices.ConnectRemoteDevice(ep, UDPport);
                 Close();
             }
-            catch(Exception x){
+            catch (Exception x) {
                 MessageBox.Show("Connect failed.");
             }
         }
-        internal static DialogResult Show(){
+
+        #endregion
+
+        #region internal
+
+        internal static DialogResult Show() {
             FormAddETH me = new FormAddETH();
             return me.ShowDialog();
         }
+
+        #endregion
+
+        #region public
+
+        public FormAddETH() {
+            InitializeComponent();
+        }
+
+        #endregion
+
     }
 }

@@ -9,11 +9,11 @@ using System.Windows.Forms;
 
 namespace MAIRecorder {
     public partial class CounterConfigPanelPeriodPulsewidth : UserControl, ICounterConfigPanel {
+        private CTChannel m_ctpanel;
+
         public CounterConfigPanelPeriodPulsewidth() {
             InitializeComponent();
         }
-
-        CTChannel m_ctpanel;
 
         public CounterConfigPanelPeriodPulsewidth(CTChannel AImyPanel) {
             InitializeComponent();
@@ -21,6 +21,7 @@ namespace MAIRecorder {
             comboBoxResolution.SelectedIndex = (int)m_ctpanel.Resolution;
             comboBoxSignalEdge.SelectedIndex = (int)m_ctpanel.Edge;
         }
+
         #region ICounterConfigPanel Member
 
         public void WriteConfigToPanel() {

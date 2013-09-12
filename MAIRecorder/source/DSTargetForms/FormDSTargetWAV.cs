@@ -10,16 +10,8 @@ using System.IO;
 
 namespace MAIRecorder {
     public partial class FormDSTargetWAV : MAIRecorder.FormDSTargetConfigBase {
-        public FormDSTargetWAV() {
-            InitializeComponent();
-            textBoxFilenameMain.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Soundfile";
 
-        }
-        protected override void CreateTarget() {
-            m_target = MAIDataSinkTarget.CreateTargetWAV(textBoxFilenameMain.Text, 3434535);
-            m_TargetFileName = textBoxFilenameMain.Text + " (WAV Files)";
-        }
-
+        #region private
         private void buttonSetFilename_Click(object sender, EventArgs e) {
             saveFileDialog1.Title = "Select data output file";
             saveFileDialog1.InitialDirectory = Path.GetDirectoryName(textBoxFilenameMain.Text);
@@ -29,5 +21,22 @@ namespace MAIRecorder {
 
             textBoxFilenameMain.Text = saveFileDialog1.FileName;
         }
+        
+        #endregion
+
+        #region protected
+        protected override void CreateTarget() {
+            m_target = MAIDataSinkTarget.CreateTargetWAV(textBoxFilenameMain.Text, 3434535);
+            m_TargetFileName = textBoxFilenameMain.Text + " (WAV Files)";
+        } 
+        #endregion
+
+        #region public
+        public FormDSTargetWAV() {
+            InitializeComponent();
+            textBoxFilenameMain.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Soundfile";
+
+        } 
+        #endregion
     }
 }

@@ -9,11 +9,12 @@ using System.Windows.Forms;
 
 namespace MAIRecorder {
     public partial class CounterConfigPanelIncremental : UserControl, ICounterConfigPanel {
+
+        private CTChannel m_ctpanel;
+
         public CounterConfigPanelIncremental() {
             InitializeComponent();
         }
-
-        CTChannel m_ctpanel;
 
         public CounterConfigPanelIncremental(CTChannel AImyPanel) {
             InitializeComponent();
@@ -23,6 +24,7 @@ namespace MAIRecorder {
             comboBoxHWREdge.SelectedIndex = (int)m_ctpanel.HWResetEdge;
             comboBoxInterpolation.SelectedIndex = (int)m_ctpanel.InterpolationMode;
         }
+
         #region ICounterConfigPanel Member
 
         public void WriteConfigToPanel() {

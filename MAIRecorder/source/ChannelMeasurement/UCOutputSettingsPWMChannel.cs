@@ -10,11 +10,16 @@ using Goldammer;
 
 namespace MAIRecorder {
     public partial class UCOutputSettingsPWMChannel : UserControl {
-        public UCOutputSettingsPWMChannel() {
-            InitializeComponent();
-        }
+        
+        #region private 
 
-        MAIChannelPWM Channel;
+        #region fields 
+
+        private MAIChannelPWM Channel;
+
+        #endregion
+
+        #region ui_event_handlers
 
         private void trackBarRatio_Scroll(object sender, EventArgs e) {
             Channel.SetNewPWMRatio((uint)trackBarRatio.Value);
@@ -32,13 +37,20 @@ namespace MAIRecorder {
             numericUpDownFrequency.Enabled = cbActive.Checked;
         }
 
+
+        #endregion
+        
+        #endregion
+
+        #region internal
+
         internal void ConfigureOutput(bool AIOutputStarted) {
             cbActive.Enabled = AIOutputStarted;
             rbFM.Enabled = AIOutputStarted;
             rbPWM.Enabled = AIOutputStarted;
             trackBarRatio.Enabled = AIOutputStarted;
             numericUpDownFrequency.Enabled = AIOutputStarted;
-            if (!AIOutputStarted){
+            if (!AIOutputStarted) {
                 if (cbActive.Checked) {
                     if (rbPWM.Checked) {
                         trackBarRatio.Enabled = true;
@@ -63,5 +75,14 @@ namespace MAIRecorder {
             groupBox1.Text = AIName;
             Channel = AIChannel;
         }
+ 
+        #endregion
+
+        #region public
+        public UCOutputSettingsPWMChannel() {
+            InitializeComponent();
+        } 
+        #endregion
+
     }
 }
