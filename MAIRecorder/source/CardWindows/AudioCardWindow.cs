@@ -68,6 +68,7 @@ namespace MAIRecorder {
         }
 
         private void tDMSToolStripMenuItem_Click(object sender, EventArgs e) {
+
             string recTarget = "";
             m_dsTarget = FormDSTargetConfigBase.ShowAsDialog((sender as ToolStripMenuItem).Text, out recTarget);
             if (m_dsTarget == null)
@@ -126,9 +127,16 @@ namespace MAIRecorder {
         }
 
         private void checkBoxRECORD_CheckedChanged(object sender, EventArgs e) {
+       
+
             //timer1.Enabled = !checkBoxRECORD.Checked;
             //m_maiDevice.ADChannels.DataSink.Preview.Enabled  = !checkBoxRECORD.Checked;
             if (checkBoxRECORD.Checked) {
+                if (!CheckADDatasinkPerformance()) {
+                    checkBoxRECORD.Checked = false;
+                    return;
+
+                }
                 if (!m_maiDevice.HasDatasinkLicense)
                     MessageBox.Show(Messages.NoLicenseFoundText, Messages.NoLicenseFoundCaption);
                 menuStrip1.Enabled = false;
@@ -143,6 +151,8 @@ namespace MAIRecorder {
             checkBoxRECORD.ForeColor = checkBoxRECORD.BackColor;
             checkBoxRECORD.BackColor = tmp;
         }
+
+       
 
         private void rAWToolStripMenuItem_CheckedChanged(object sender, EventArgs e) {
 
@@ -174,42 +184,7 @@ namespace MAIRecorder {
             fileToolStripMenuItem.Enabled =  !checkBoxPREV.Checked;
         }
 
-        private bool ConfigIsOK() {
-            double sr = (double)Convert.ToUInt32(comboBoxSamplerate.Text);
-            double or = (double)Convert.ToUInt32(comboBoxOutputRate.Text);
-            int inChannels = 0;
-            if( checkBoxAD0.Checked)
-                inChannels++;
-            if( checkBoxAD1.Checked)
-                inChannels++;
-            if( checkBoxAD2.Checked)
-                inChannels++;
-            if( checkBoxAD3.Checked)
-                inChannels++;
-            if( checkBoxCT0.Checked)
-                inChannels++;
-            if( checkBoxCT1.Checked)
-                inChannels++;
-            int outChannels = 0;
-             if( checkBoxDA0.Checked)
-                outChannels++;
-             if(checkBoxDA1.Checked)
-                outChannels++;
-             if ((sr < 96000) && (or < 96000))
-                return true;
-
-             if ((outChannels == 0) && (inChannels < 3))
-                 return true;
-
-            string msboxtext = Messages.AudioPerformanceCritical;
-         
-
-            if (MessageBox.Show(msboxtext, Messages.AudioPerformanceWarningCaption, MessageBoxButtons.OKCancel) == DialogResult.OK)
-                return true;
-
-            return false;
-        }
-
+       
         private void checkBoxLoopBack_CheckedChanged(object sender, EventArgs e) {
             Color tmp = checkBoxLoopBack.ForeColor;
             checkBoxLoopBack.ForeColor = checkBoxLoopBack.BackColor;
@@ -373,6 +348,77 @@ namespace MAIRecorder {
             SetUpPrevPresets();
             m_maiDevice.StartMeasure();
 
+        }
+
+
+        private bool ConfigIsOK() {
+            double sr; 
+            double or; 
+            int inChannels = 0;
+            int outChannels = 0;
+
+            GetMeasureProperties(out inChannels, out outChannels, out sr, out or);
+            if ((sr < 96000) && (or < 96000))
+                return true;
+
+            if ((outChannels == 0) && (inChannels < 3))
+                return true;
+
+            string msboxtext = Messages.AudioPerformanceCritical;
+
+
+            if (MessageBox.Show(msboxtext, Messages.AudioPerformanceWarningCaption, MessageBoxButtons.OKCancel) == DialogResult.OK)
+                return true;
+
+            return false;
+        }
+
+        private void GetMeasureProperties(out int inChannels, out int outChannels, out double Samplerate, out double OutputRate) {
+            inChannels = 0;
+            outChannels = 0;
+
+            Samplerate = (double)Convert.ToUInt32(comboBoxSamplerate.Text);
+            OutputRate = (double)Convert.ToUInt32(comboBoxOutputRate.Text);
+
+            if (checkBoxAD0.Checked)
+                inChannels++;
+            if (checkBoxAD1.Checked)
+                inChannels++;
+            if (checkBoxAD2.Checked)
+                inChannels++;
+            if (checkBoxAD3.Checked)
+                inChannels++;
+            if (checkBoxCT0.Checked)
+                inChannels++;
+            if (checkBoxCT1.Checked)
+                inChannels++;
+            if (checkBoxDA0.Checked)
+                outChannels++;
+            if (checkBoxDA1.Checked)
+                outChannels++;
+        }
+
+        private bool CheckADDatasinkPerformance() {
+            double sr;
+            double or;
+            int inChannels = 0;
+            int outChannels = 0;
+
+            GetMeasureProperties(out inChannels, out outChannels, out sr, out or);
+
+            if ((sr < 50000) && (or < 50000))
+                return true;
+
+            if ((outChannels == 0) && (inChannels < 3))
+                return true;
+
+            string msboxtext = Messages.AudioPerformanceRecCritical;
+
+
+            if (MessageBox.Show(msboxtext, Messages.AudioPerformanceWarningCaption, MessageBoxButtons.OKCancel) == DialogResult.OK)
+                return true;
+
+            return false;
         }
 
         private void StopMeasAndClear() {
