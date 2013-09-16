@@ -344,12 +344,12 @@ namespace MAIRecorder {
             InitializeComponent();
             timer1.Enabled = checkBoxUpdate.Checked;
             timer1.Interval = (int)numericUpDown1.Value;
-            ToolTip ADToolTip = CreateTooltip("AD Channels");
-            ADToolTip.SetToolTip(flpADChannels, "Click on the Channel's name to configure it.");
-            ADToolTip.SetToolTip(panelAD, "Click on the Channel's name to configure it.");
-            ToolTip DIOToolTip = CreateTooltip("TTL Pins");
-            DIOToolTip.SetToolTip(flpDIOChannels, "Click coloured HI/LO label to switch the state of an output.");
-            DIOToolTip.SetToolTip(panelDIO, "Click coloured HI/LO label to switch the state of an output.");
+            ToolTip ADToolTip = CreateTooltip(Messages.ToolTipCaptionAD);
+            ADToolTip.SetToolTip(flpADChannels, Messages.ToolTipTextClickonChannel);
+            ADToolTip.SetToolTip(panelAD, Messages.ToolTipTextClickonChannel);
+            ToolTip DIOToolTip = CreateTooltip(Messages.ToolTipCaptionTTL);
+            DIOToolTip.SetToolTip(flpDIOChannels, Messages.ToolTipTextClickonChannelTTL);
+            DIOToolTip.SetToolTip(panelDIO, Messages.ToolTipTextClickonChannelTTL);
         }
 
         #endregion

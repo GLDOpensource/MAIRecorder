@@ -130,7 +130,7 @@ namespace MAIRecorder {
             //m_maiDevice.ADChannels.DataSink.Preview.Enabled  = !checkBoxRECORD.Checked;
             if (checkBoxRECORD.Checked) {
                 if (!m_maiDevice.HasDatasinkLicense)
-                    MessageBox.Show("license file not found. Will record invalid data !!", "license file not fond");
+                    MessageBox.Show(Messages.NoLicenseFoundText, Messages.NoLicenseFoundCaption);
                 menuStrip1.Enabled = false;
 
             }
@@ -157,8 +157,14 @@ namespace MAIRecorder {
             textBoxCT1.Text = "";
             StopMeasAndClear();
             if (checkBoxPREV.Checked) {
-                ConfigAndStartMeas();
-                SetUpChart();
+                if (ConfigIsOK()) {
+                    ConfigAndStartMeas();
+                    SetUpChart();
+                }
+                else{
+                    checkBoxPREV.Checked = false;
+                    return;
+                }
             }
             timer1.Enabled = checkBoxPREV.Checked;
             checkBoxLoopBack.Enabled = !checkBoxPREV.Checked;
@@ -166,6 +172,42 @@ namespace MAIRecorder {
             radioButtonCharts.Enabled = !checkBoxPREV.Checked;
             radioButtonRMS.Enabled = !checkBoxPREV.Checked;
             fileToolStripMenuItem.Enabled =  !checkBoxPREV.Checked;
+        }
+
+        private bool ConfigIsOK() {
+            double sr = (double)Convert.ToUInt32(comboBoxSamplerate.Text);
+            double or = (double)Convert.ToUInt32(comboBoxOutputRate.Text);
+            int inChannels = 0;
+            if( checkBoxAD0.Checked)
+                inChannels++;
+            if( checkBoxAD1.Checked)
+                inChannels++;
+            if( checkBoxAD2.Checked)
+                inChannels++;
+            if( checkBoxAD3.Checked)
+                inChannels++;
+            if( checkBoxCT0.Checked)
+                inChannels++;
+            if( checkBoxCT1.Checked)
+                inChannels++;
+            int outChannels = 0;
+             if( checkBoxDA0.Checked)
+                outChannels++;
+             if(checkBoxDA1.Checked)
+                outChannels++;
+             if ((sr < 96000) && (or < 96000))
+                return true;
+
+             if ((outChannels == 0) && (inChannels < 3))
+                 return true;
+
+            string msboxtext = Messages.AudioPerformanceCritical;
+         
+
+            if (MessageBox.Show(msboxtext, Messages.AudioPerformanceWarningCaption, MessageBoxButtons.OKCancel) == DialogResult.OK)
+                return true;
+
+            return false;
         }
 
         private void checkBoxLoopBack_CheckedChanged(object sender, EventArgs e) {

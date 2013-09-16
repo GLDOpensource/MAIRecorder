@@ -46,7 +46,7 @@ namespace MAIRecorder {
         private void buttonServer_Click(object sender, EventArgs e) {
             CreateConnectionAndDB();
             if (m_conn != null)
-                MessageBox.Show("Database found or created sucessfully.", "Connection is valid");
+                MessageBox.Show(Messages.DBConnectionEstablishedText, Messages.DBConnectionEstablishedCaption);
         } 
 
         #endregion

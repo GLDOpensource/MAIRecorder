@@ -96,6 +96,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
     <Compile Include="source\ChannelConfiguration\FormChooseOutputWave.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -285,6 +290,11 @@
     </Compile>
     <Compile Include="source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Messages.de.resx" />
+    <EmbeddedResource Include="Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="source\ChannelConfiguration\FormChooseOutputWave.resx">
       <DependentUpon>FormChooseOutputWave.cs</DependentUpon>
     </EmbeddedResource>
