@@ -364,6 +364,10 @@ namespace MAIRecorder {
             if ((outChannels == 0) && (inChannels < 3))
                 return true;
 
+
+            if ((outChannels == 0) && (sr < 100000))
+                return true;
+
             string msboxtext = Messages.AudioPerformanceCritical;
 
 

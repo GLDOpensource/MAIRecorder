@@ -113,7 +113,7 @@
             this.comboBoxSamplerate.Name = "comboBoxSamplerate";
             this.comboBoxSamplerate.Size = new System.Drawing.Size(72, 21);
             this.comboBoxSamplerate.TabIndex = 45;
-            this.comboBoxSamplerate.Text = "96000";
+            this.comboBoxSamplerate.Text = "48000";
             // 
             // label1
             // 
@@ -144,7 +144,7 @@
             this.comboBoxOutputRate.Name = "comboBoxOutputRate";
             this.comboBoxOutputRate.Size = new System.Drawing.Size(72, 21);
             this.comboBoxOutputRate.TabIndex = 48;
-            this.comboBoxOutputRate.Text = "96000";
+            this.comboBoxOutputRate.Text = "48000";
             // 
             // groupBoxChannelConfig
             // 
