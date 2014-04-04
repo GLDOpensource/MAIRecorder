@@ -127,21 +127,18 @@ namespace MAIRecorder {
         public CTSetup(CTChannel AIMyPanel) {
             m_CTPanel = AIMyPanel;
             InitializeComponent();
-            if (!m_CTPanel.Channel.MyDevice.Properties.CTChannels[(int)m_CTPanel.Channel.HardwareChannelNumber].IsIncremental) {
-                rbIncremental.Enabled = false;
-            }
-            if (!m_CTPanel.Channel.MyDevice.Properties.CTChannels[(int)m_CTPanel.Channel.HardwareChannelNumber].IsIncrementalExtension) {
-                rbIncExtFlow.Enabled = false;
-                rbIncExtTime.Enabled = false;
-            }
-            if (!m_CTPanel.Channel.MyDevice.Properties.CTChannels[(int)m_CTPanel.Channel.HardwareChannelNumber].IsUniversal) {
-                rbImpulse.Enabled = false;
-                rbFreq.Enabled = false;
-                rbPeriod.Enabled = false;
-                rbPulsewidth.Enabled = false;
-            }
-            // Seriennummer check, es gibt UP/Down PCI Karten.
-            rbUpDown.Enabled = false;
+            rbIncremental.Enabled = m_CTPanel.Channel.IsCounterModeAvailable(CounterMode.INCREMENTALCOUNTER);
+            rbIncExtFlow.Enabled = m_CTPanel.Channel.IsCounterModeAvailable(CounterMode.INCEEXTFLOWRATE);
+            rbIncExtTime.Enabled = m_CTPanel.Channel.IsCounterModeAvailable(CounterMode.INCEEXTTIMESTAMP);
+            
+            
+            rbImpulse.Enabled = m_CTPanel.Channel.IsCounterModeAvailable(CounterMode.IMPULSECOUNTER);
+            rbFreq.Enabled = m_CTPanel.Channel.IsCounterModeAvailable(CounterMode.FREQUENCYCOUNTER);
+            rbPeriod.Enabled = m_CTPanel.Channel.IsCounterModeAvailable(CounterMode.PERIODCOUNTER);
+            rbPulsewidth.Enabled = m_CTPanel.Channel.IsCounterModeAvailable(CounterMode.PULSEWIDTHCOUNTER);
+            
+             
+            rbUpDown.Enabled = m_CTPanel.Channel.IsCounterModeAvailable(CounterMode.UPDOWNCOUNTER);
             checkBoxSyncToAD.Enabled = m_CTPanel.Channel.MyDevice.IsDSPDevice;
             Mode = m_CTPanel.Mode;
             checkBoxSyncToAD.Checked = m_CTPanel.ADSync;

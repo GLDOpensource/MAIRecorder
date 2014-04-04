@@ -221,15 +221,17 @@ namespace MAIRecorder {
             InitializeComponent();
             Channel = AIChannel;
             ADSync = true;
-            if (!Channel.IsUniversal) {
-                if (Channel.IsIncremental)
+            if (Channel.IsCounterModeAvailable(CounterMode.IMPULSECOUNTER) ){
+                 Mode = CounterMode.IMPULSECOUNTER;
+            }
+            else  if (Channel.IsCounterModeAvailable(CounterMode.INCREMENTALCOUNTER)){
                     Mode = CounterMode.INCREMENTALCOUNTER;
-                else if (Channel.IsIncrementalExtension)
+            }
+            else if (Channel.IsCounterModeAvailable(CounterMode.INCEEXTTIMESTAMP)){
                     Mode = CounterMode.INCEEXTTIMESTAMP;
 
             }
-            else
-                Mode = CounterMode.IMPULSECOUNTER;
+           
             CreateTmpMeaschan();
             //Channel.Mode
 
