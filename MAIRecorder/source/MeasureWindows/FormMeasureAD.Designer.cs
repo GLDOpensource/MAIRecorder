@@ -41,10 +41,13 @@
             this.databaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oPCServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.channelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mi_invertSelection = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chartsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.valuesRMSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.numericUpDownADSamplerate = new System.Windows.Forms.NumericUpDown();
             this.labelPrevTime = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.labelPrevRate = new System.Windows.Forms.Label();
@@ -60,6 +63,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownADSamplerate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBaPrevSampleRate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBaPreviewBufSize)).BeginInit();
             this.SuspendLayout();
@@ -164,9 +168,19 @@
             // 
             // channelsToolStripMenuItem
             // 
+            this.channelsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mi_invertSelection});
             this.channelsToolStripMenuItem.Name = "channelsToolStripMenuItem";
             this.channelsToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.channelsToolStripMenuItem.Text = "AD Channels";
+            // 
+            // mi_invertSelection
+            // 
+            this.mi_invertSelection.Enabled = false;
+            this.mi_invertSelection.Name = "mi_invertSelection";
+            this.mi_invertSelection.Size = new System.Drawing.Size(155, 22);
+            this.mi_invertSelection.Text = "Invert Selection";
+            this.mi_invertSelection.Click += new System.EventHandler(this.ni_invertSelectedChannels_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -195,6 +209,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.numericUpDownADSamplerate);
             this.panel1.Controls.Add(this.labelPrevTime);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.labelPrevRate);
@@ -211,6 +227,37 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(780, 74);
             this.panel1.TabIndex = 2;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(399, 52);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(82, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Samplerate [Hz]";
+            // 
+            // numericUpDownADSamplerate
+            // 
+            this.numericUpDownADSamplerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericUpDownADSamplerate.Location = new System.Drawing.Point(487, 50);
+            this.numericUpDownADSamplerate.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDownADSamplerate.Name = "numericUpDownADSamplerate";
+            this.numericUpDownADSamplerate.Size = new System.Drawing.Size(89, 20);
+            this.numericUpDownADSamplerate.TabIndex = 11;
+            this.numericUpDownADSamplerate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numericUpDownADSamplerate.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownADSamplerate.ValueChanged += new System.EventHandler(this.numericUpDownADSamplerate_ValueChanged);
+            this.numericUpDownADSamplerate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.numericUpDownADSamplerate_KeyUp);
             // 
             // labelPrevTime
             // 
@@ -232,8 +279,9 @@
             // 
             // labelPrevRate
             // 
+            this.labelPrevRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelPrevRate.AutoSize = true;
-            this.labelPrevRate.Location = new System.Drawing.Point(541, 33);
+            this.labelPrevRate.Location = new System.Drawing.Point(538, 33);
             this.labelPrevRate.Name = "labelPrevRate";
             this.labelPrevRate.Size = new System.Drawing.Size(35, 13);
             this.labelPrevRate.TabIndex = 8;
@@ -241,8 +289,9 @@
             // 
             // labelPrevSize
             // 
+            this.labelPrevSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelPrevSize.AutoSize = true;
-            this.labelPrevSize.Location = new System.Drawing.Point(541, 10);
+            this.labelPrevSize.Location = new System.Drawing.Point(538, 10);
             this.labelPrevSize.Name = "labelPrevSize";
             this.labelPrevSize.Size = new System.Drawing.Size(35, 13);
             this.labelPrevSize.TabIndex = 7;
@@ -250,12 +299,14 @@
             // 
             // trBaPrevSampleRate
             // 
+            this.trBaPrevSampleRate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.trBaPrevSampleRate.AutoSize = false;
             this.trBaPrevSampleRate.Location = new System.Drawing.Point(114, 30);
             this.trBaPrevSampleRate.Margin = new System.Windows.Forms.Padding(0);
             this.trBaPrevSampleRate.Minimum = 1;
             this.trBaPrevSampleRate.Name = "trBaPrevSampleRate";
-            this.trBaPrevSampleRate.Size = new System.Drawing.Size(424, 27);
+            this.trBaPrevSampleRate.Size = new System.Drawing.Size(421, 27);
             this.trBaPrevSampleRate.TabIndex = 6;
             this.trBaPrevSampleRate.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trBaPrevSampleRate.Value = 1;
@@ -263,13 +314,15 @@
             // 
             // trBaPreviewBufSize
             // 
+            this.trBaPreviewBufSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.trBaPreviewBufSize.AutoSize = false;
             this.trBaPreviewBufSize.Location = new System.Drawing.Point(114, 6);
             this.trBaPreviewBufSize.Margin = new System.Windows.Forms.Padding(0);
             this.trBaPreviewBufSize.Maximum = 3000;
             this.trBaPreviewBufSize.Minimum = 10;
             this.trBaPreviewBufSize.Name = "trBaPreviewBufSize";
-            this.trBaPreviewBufSize.Size = new System.Drawing.Size(424, 27);
+            this.trBaPreviewBufSize.Size = new System.Drawing.Size(421, 27);
             this.trBaPreviewBufSize.TabIndex = 5;
             this.trBaPreviewBufSize.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trBaPreviewBufSize.Value = 200;
@@ -295,19 +348,19 @@
             // 
             // tbRecTarget
             // 
-            this.tbRecTarget.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbRecTarget.Location = new System.Drawing.Point(663, 49);
+            this.tbRecTarget.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbRecTarget.Location = new System.Drawing.Point(657, 49);
             this.tbRecTarget.Name = "tbRecTarget";
             this.tbRecTarget.ReadOnly = true;
-            this.tbRecTarget.Size = new System.Drawing.Size(100, 20);
+            this.tbRecTarget.Size = new System.Drawing.Size(106, 20);
             this.tbRecTarget.TabIndex = 2;
             this.tbRecTarget.Text = "no Output selected";
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(605, 52);
+            this.label1.Location = new System.Drawing.Point(600, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 13);
             this.label1.TabIndex = 1;
@@ -354,6 +407,7 @@
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownADSamplerate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBaPrevSampleRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trBaPreviewBufSize)).EndInit();
             this.ResumeLayout(false);
@@ -390,5 +444,8 @@
         private System.Windows.Forms.Label labelPrevRate;
         private System.Windows.Forms.Label labelPrevTime;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripMenuItem mi_invertSelection;
+        public System.Windows.Forms.Label label6;
+        public System.Windows.Forms.NumericUpDown numericUpDownADSamplerate;
     }
 }

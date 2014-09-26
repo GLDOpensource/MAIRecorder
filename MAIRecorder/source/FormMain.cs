@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Goldammer;
 using Goldammer.Controls;
+using System.Reflection;
 
 namespace MAIRecorder {
     public partial class Form1 : Form {
@@ -39,6 +40,8 @@ namespace MAIRecorder {
             m_dtCardProperties.Columns.Add("Value", typeof(string));
           //  textBox1.Text = m_selected.Info.GetCompleteDescriptionString();
 
+            m_dtCardProperties.Rows.Add("I am MAIRecorder Version", Application.ProductVersion );
+            m_dtCardProperties.Rows.Add("and using MAIv2 Version", MAI.GetAssemblyVersion());
             m_dtCardProperties.Rows.Add("Card Series", m_selected.Info.CardName);
             m_dtCardProperties.Rows.Add("Model", m_selected.Info.ManufactureName);
             m_dtCardProperties.Rows.Add("SerialNumber", m_selected.Info.SerialNumber);

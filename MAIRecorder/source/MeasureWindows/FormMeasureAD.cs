@@ -10,6 +10,7 @@ using Goldammer;
 using Goldammer.MAIExtensions.DAQ;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Threading;
 
 namespace MAIRecorder {
     public partial class FormMeasureAD : Form {
@@ -24,9 +25,39 @@ namespace MAIRecorder {
 
         #region ui_event_handler
 
+        bool m_bReconfigureLater = false;
+
         private void ni_CheckStateChanged(object sender, EventArgs e) {
-            Reconfigure(m_ParentWindow.MAIDevice.ADChannels.DataSink.Target);
+            if(!m_bReconfigureLater)
+                Reconfigure(m_ParentWindow.MAIDevice.ADChannels.DataSink.Target);
         }
+
+        private void ni_invertSelectedChannels_Click(object sender, EventArgs e) {
+            m_bReconfigureLater = true;
+            try {
+                ToolStripMenuItem it = (ToolStripMenuItem)menuStrip1.Items["channelsToolStripMenuItem"];
+                foreach (ToolStripMenuItem mi in it.DropDownItems) {
+                    if(mi.Tag != null)
+                        mi.Checked = !mi.Checked;
+                }
+            }
+            finally {
+                m_bReconfigureLater = false;
+            }
+            Reconfigure(m_ParentWindow.MAIDevice.ADChannels.DataSink.Target);
+
+        }
+
+        private void numericUpDownADSamplerate_ValueChanged(object sender, EventArgs e) {
+            if (!m_bReconfigureLater)
+                Reconfigure(m_ParentWindow.MAIDevice.ADChannels.DataSink.Target);
+        }
+
+        private void numericUpDownADSamplerate_KeyUp(object sender, KeyEventArgs e) {
+            if (!m_bReconfigureLater)
+                Reconfigure(m_ParentWindow.MAIDevice.ADChannels.DataSink.Target);
+        }
+
 
         private void timer1_Tick(object sender, EventArgs e) {
             try {
@@ -50,13 +81,14 @@ namespace MAIRecorder {
         private void checkBox1_CheckedChanged(object sender, EventArgs e) {
             if (checkBox1.Checked) {
                 if (!m_ParentWindow.MAIDevice.HasDatasinkLicense)
-                    MessageBox.Show("license file not fond. Will record invalid data !!", "license file not fond");
+                    MessageBox.Show("license file not found. Will record invalid data !!", "license file not fond");
                 menuStrip1.Enabled = false;
 
             }
             else {
                 menuStrip1.Enabled = true;
             }
+            numericUpDownADSamplerate.Enabled = !checkBox1.Checked;
 
             m_ParentWindow.MAIDevice.ADChannels.DataSink.OutputEnabled = checkBox1.Checked;
             Color tmp = checkBox1.ForeColor;
@@ -122,24 +154,30 @@ namespace MAIRecorder {
             if (valuesRMSToolStripMenuItem.Checked)
                 return;
             timer1.Enabled = false;
-            chartsToolStripMenuItem.Checked = false;
-            valuesRMSToolStripMenuItem.Checked = true;
-            SetUpChart();
-            SetUpPrevPresets();
-
-            timer1.Enabled = true;
+            try {
+                chartsToolStripMenuItem.Checked = false;
+                valuesRMSToolStripMenuItem.Checked = true;
+                SetUpChart();
+                SetUpPrevPresets();
+            }
+            finally {
+                timer1.Enabled = true;
+            }
         }
 
         private void chartsToolStripMenuItem_Click(object sender, EventArgs e) {
             if (chartsToolStripMenuItem.Checked)
                 return;
             timer1.Enabled = false;
-            chartsToolStripMenuItem.Checked = true;
-            valuesRMSToolStripMenuItem.Checked = false;
-            SetUpChart();
-            SetUpPrevPresets();
-
-            timer1.Enabled = true;
+            try {
+                chartsToolStripMenuItem.Checked = true;
+                valuesRMSToolStripMenuItem.Checked = false;
+                SetUpChart();
+                SetUpPrevPresets();
+            }
+            finally {
+                timer1.Enabled = true;
+            }
         }
 
         #endregion
@@ -149,34 +187,70 @@ namespace MAIRecorder {
 
         private void Reconfigure(IDataSinkTarget AITarget) {
             timer1.Enabled = false;
-            m_ParentWindow.MAIDevice.ADChannels.DataSink.Disable();
-            m_ParentWindow.MAIDevice.StopMeasure();
+            try {
+                m_ParentWindow.MAIDevice.ADChannels.DataSink.Disable();
+                m_ParentWindow.MAIDevice.StopMeasure();
+             
+                m_ParentWindow.MAIDevice.ClearAllChannelLists();
+               
+                uint ActiveChannelCount = 0;
+                ToolStripMenuItem it = (ToolStripMenuItem)menuStrip1.Items["channelsToolStripMenuItem"];
+                foreach (ToolStripMenuItem mi in it.DropDownItems) {
+                    if (mi.Checked) {
+                        if (mi.Tag != null) {
+                            (mi.Tag as ADChannelSmall).CreateMeasurementChannel();
+                            ActiveChannelCount++;
+                        }
+                    }
+                }
 
-            m_ParentWindow.MAIDevice.ClearAllChannelLists();
+                mi_invertSelection.Enabled = (ActiveChannelCount < m_ParentWindow.MAIDevice.Info.ADChannels);
 
-            ToolStripMenuItem it = (ToolStripMenuItem)menuStrip1.Items["channelsToolStripMenuItem"];
-            foreach (ToolStripMenuItem mi in it.DropDownItems) {
-                if (mi.Checked)
-                    (mi.Tag as ADChannelSmall).CreateMeasurementChannel();
+                SetSamplerateBoundaries(ActiveChannelCount);
 
+                SetUpChart();
+
+                double sr = (double)numericUpDownADSamplerate.Value;
+                m_ParentWindow.MAIDevice.ADChannels.SetSampleRate(sr);
+                m_ParentWindow.MAIDevice.ADChannels.DataSink.Target = AITarget;
+
+                m_ParentWindow.MAIDevice.ConfigMeasure();
+                m_ParentWindow.MAIDevice.ADChannels.DataSink.Enable(DateTime.Now);  // Datasink starten
+               
+                m_ParentWindow.MAIDevice.StartMeasure();
+                SetUpPrevPresets();
             }
-
-
-            SetUpChart();
-            double sr = (double)m_ParentWindow.numericUpDownADSamplerate.Value;
-            m_ParentWindow.MAIDevice.ADChannels.SetSampleRate(sr);
-            m_ParentWindow.MAIDevice.ADChannels.DataSink.Target = AITarget;
-
-            m_ParentWindow.MAIDevice.ConfigMeasure();
-            m_ParentWindow.MAIDevice.ADChannels.DataSink.Enable(DateTime.Now);  // Datasink starten
-            m_ParentWindow.MAIDevice.StartMeasure();
-            SetUpPrevPresets();
-
+            finally {
+                timer1.Enabled = true;
+            }
 
         }
 
+        private void SetSamplerateBoundaries(uint ActiveChannelCount) {
+            int maxSR = m_ParentWindow.MAIDevice.Info.ADSampleRate * 1000 / (int)ActiveChannelCount;
+            if (m_ParentWindow.MAIDevice.Info.SerialNumber.Contains("G0M")) {
+                if (maxSR > 300000)
+                    maxSR = 300000;
+            }
+            else if ((m_ParentWindow.MAIDevice.Info.SerialNumber.Contains("G0S") || (m_ParentWindow.MAIDevice.Info.SerialNumber.Contains("GES")))) {
+                if (maxSR > 225000)
+                    maxSR = 225000;          
+            }
+            m_bReconfigureLater = true;
+            try {
+                numericUpDownADSamplerate.Maximum = maxSR;
+                if(numericUpDownADSamplerate.Value > maxSR)
+                    numericUpDownADSamplerate.Value = maxSR;
+            }
+            finally {
+                m_bReconfigureLater = false;
+            }
+        }
+
+  
+
         private void SetUpPrevPresets() {
-            double sr = (double)m_ParentWindow.numericUpDownADSamplerate.Value;
+            double sr = (double)numericUpDownADSamplerate.Value;
             double prevR = sr / 10;
             int initialPrevBufSize = 200;
             if (!chartsToolStripMenuItem.Checked) {
@@ -193,7 +267,7 @@ namespace MAIRecorder {
             m_ParentWindow.MAIDevice.ADChannels.DataSink.Preview.Enabled = true;
             // und nur Daten aufzeichnen, wenn "Recording" im UI aktiviert ist:
             m_ParentWindow.MAIDevice.ADChannels.DataSink.OutputEnabled = checkBox1.Checked;
-            timer1.Enabled = true;
+           
             trBaPreviewBufSize.Value = initialPrevBufSize;
             trBaPrevSampleRate.Value = (int)prevR;
             labelPrevSize.Text = initialPrevBufSize.ToString();
@@ -282,12 +356,20 @@ namespace MAIRecorder {
                 ni.CheckOnClick = true;
                 ni.CheckStateChanged += new EventHandler(ni_CheckStateChanged);
             }
-          
+
+            numericUpDownADSamplerate.Value   = m_ParentWindow.numericUpDownADSamplerate.Value;
+            numericUpDownADSamplerate.Minimum = 2;
             Reconfigure(null);
 
         }
 
         #endregion
+
+    
+
+    
+
+
 
 
     }
