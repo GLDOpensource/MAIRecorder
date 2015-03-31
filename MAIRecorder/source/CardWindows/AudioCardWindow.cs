@@ -477,15 +477,15 @@ namespace MAIRecorder {
                     na.AxisX.LabelStyle.Enabled = false;
                     na.AxisX.MajorTickMark.Enabled = false;
                     na.AxisX.Enabled = AxisEnabled.False;
-                    na.AxisY.Maximum = 5;
-                    na.AxisY.Minimum = -5;
+                    na.AxisY.Maximum = 10;
+                    na.AxisY.Minimum = -10;
                     na.AxisY.MajorGrid.Interval = 5;
                     na.AxisY.MinorGrid.Interval = 1;
                     na.AxisY.MinorGrid.Enabled = true;
                     na.AxisY.MinorGrid.LineColor = Color.LightGray;
                     na.AxisY.MinorTickMark.Enabled = true;
                     na.AxisY.MajorTickMark.Interval = 5;
-                    na.AxisY.LabelStyle.Interval = 5;
+                    na.AxisY.LabelStyle.Interval = 10;
                 }
             }
             else {
