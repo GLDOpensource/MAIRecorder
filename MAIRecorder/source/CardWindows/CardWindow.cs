@@ -257,8 +257,10 @@ namespace MAIRecorder {
         #region methods
 
         internal static void Show(MAIDevice AIDevice) {
+            try{
             AIDevice.DAChannels.SetRange(DARange.Bipolar);
-
+            }
+            catch { }
             CardWindow me = new CardWindow();
             me.m_maiDevice = AIDevice;
             if (me.m_maiDevice.Properties.ADChannels.Count > 0) {
@@ -266,7 +268,11 @@ namespace MAIRecorder {
                     me.bIEPE_OFF.Visible = true;
             }
             me.m_maiDevice.StopMeasure();
-            me.m_maiDevice.DAChannels.StopOutput();
+            try {
+                me.m_maiDevice.DAChannels.StopOutput();
+            }
+            catch { }
+           
             me.m_maiDevice.ClearAllChannelLists();
 
 

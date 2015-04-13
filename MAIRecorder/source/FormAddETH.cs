@@ -41,7 +41,7 @@ namespace MAIRecorder {
 
             IPEndPoint ep = new IPEndPoint(adr, (int)port);
             try {
-                MAI.Devices.ConnectRemoteDevice(ep, UDPport);
+                MAI.Devices.ConnectRemoteDevice(ep, UDPport,true);
                 Close();
             }
             catch (Exception x) {

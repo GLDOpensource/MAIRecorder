@@ -84,8 +84,11 @@ namespace MAIRecorder {
             m_dtCardProperties.Rows.Add("Altera Version", String.Format("{0:X}",m_selected.Info.MeasureProcessorVersion));
             m_dtCardProperties.Rows.Add("Firmware ", ((m_selected.Info.ControllerVersion & 0xFF00)>>8) + "." + (m_selected.Info.ControllerVersion & 0xFF));
             m_dtCardProperties.Rows.Add("has DSP ", m_selected.IsDSPDevice);
-            m_dtCardProperties.Rows.Add("WDMDriverVersion", m_selected.GetWDMDriverVersion());
-            if (m_selected.DeviceType == MeasurementDeviceType.MULTICHOICE_USB_BASIC) {
+            try {
+                m_dtCardProperties.Rows.Add("WDMDriverVersion", m_selected.GetWDMDriverVersion());
+            }
+            catch { }
+            if ((m_selected.DeviceType == MeasurementDeviceType.MULTICHOICE_USB_BASIC) || (m_selected.DeviceType == MeasurementDeviceType.MULTICHOISE_ETH)) {
                 m_dtCardProperties.Rows.Add("Frontend ID", m_selected.Info.BasicFrontendID);
                 m_dtCardProperties.Rows.Add("Digital Ext ID", m_selected.Info.BasicDigitalExtensionID);
             }
@@ -116,9 +119,9 @@ namespace MAIRecorder {
         }
 
         private void button2_Click(object sender, EventArgs e) {
-            FormAddETH.Show();
-
-
+            FormConnectRemoteDevice frm = new FormConnectRemoteDevice();
+            if (frm.ShowDialog() == DialogResult.OK)
+                GetDevices();
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e) {
