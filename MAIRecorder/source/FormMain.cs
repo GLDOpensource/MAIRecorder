@@ -88,7 +88,7 @@ namespace MAIRecorder {
                 m_dtCardProperties.Rows.Add("WDMDriverVersion", m_selected.GetWDMDriverVersion());
             }
             catch { }
-            if ((m_selected.DeviceType == MeasurementDeviceType.MULTICHOICE_USB_BASIC) || (m_selected.DeviceType == MeasurementDeviceType.MULTICHOISE_ETH)) {
+            if ((m_selected.DeviceType == MeasurementDeviceType.MULTICHOICE_USB_BASIC) || (m_selected.DeviceType == MeasurementDeviceType.MULTICHOICE_ETH)) {
                 m_dtCardProperties.Rows.Add("Frontend ID", m_selected.Info.BasicFrontendID);
                 m_dtCardProperties.Rows.Add("Digital Ext ID", m_selected.Info.BasicDigitalExtensionID);
             }

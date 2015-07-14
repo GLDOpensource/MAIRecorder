@@ -314,7 +314,8 @@ namespace MAIRecorder {
             if (lastVisible != null)
                 lastVisible.Dock = DockStyle.Fill;
             me.Text = AIDevice.Info.SerialNumber;
-            me.groupBoxDARange.Enabled = !AIDevice.IsUSBBasicDevice;
+
+            me.groupBoxDARange.Enabled = AIDevice.DeviceType != MeasurementDeviceType.MULTICHOICE_USB_BASIC && AIDevice.DeviceType != MeasurementDeviceType.MULTICHOICE_ETH;
             me.buttonDAOutput.Enabled = DAVisible;
             me.buttonMeasrement.Enabled = ADVisible;
             me.buttonCTMeasure.Enabled = CTVisible;

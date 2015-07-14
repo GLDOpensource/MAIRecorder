@@ -22,16 +22,18 @@ namespace MAIRecorder {
         #region ui_event_handlers
 
         private void checkBoxDirection_CheckedChanged(object sender, EventArgs e) {
-
-            if (checkBoxDirection.Checked) {
-                m_channel.SetChannelDirection(IODirection.Output);
-                m_channel.WriteBit(State);
+            try {
+                if (checkBoxDirection.Checked) {
+                    m_channel.SetChannelDirection(IODirection.Output);
+                    m_channel.WriteBit(State);
+                }
+                else {
+                    m_channel.SetChannelDirection(IODirection.Input);
+                    State = m_channel.ReadBit();
+                    SetUIState(State);
+                }
             }
-            else {
-                m_channel.SetChannelDirection(IODirection.Input);
-                State = m_channel.ReadBit();
-                SetUIState(State);
-            }
+            catch { }
 
         }
 
