@@ -39,9 +39,9 @@ namespace MAIRecorder {
                 MessageBox.Show(Messages.ETHErrorText_UDPPort, Messages.ETHErrorCaption);
             }
 
-            IPEndPoint ep = new IPEndPoint(adr, (int)port);
+           // IPEndPoint ep = new IPEndPoint(adr, (int)port);
             try {
-                MAI.Devices.ConnectRemoteDevice(ep, UDPport,true);
+                MAI.Devices.ConnectRemoteDevice(adr,  UDPport, true);
                 Close();
             }
             catch (Exception x) {
