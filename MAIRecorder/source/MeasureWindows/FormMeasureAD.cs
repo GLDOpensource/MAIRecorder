@@ -229,11 +229,9 @@ namespace MAIRecorder {
         private void SetSamplerateBoundaries(uint ActiveChannelCount) {
             int maxSR = m_ParentWindow.MAIDevice.Info.ADSampleRate * 1000 / (int)ActiveChannelCount;
             if (m_ParentWindow.MAIDevice.Info.SerialNumber.Contains("G0M")) {
-                if (maxSR > 300000)
                     maxSR = 300000;
             }
-            else if ((m_ParentWindow.MAIDevice.Info.SerialNumber.Contains("G0S") || (m_ParentWindow.MAIDevice.Info.SerialNumber.Contains("GES")))) {
-                if (maxSR > 225000)
+            else if ((m_ParentWindow.MAIDevice.Info.SerialNumber.Contains("G0S") || (m_ParentWindow.MAIDevice.Info.SerialNumber.Contains("GES")) || (m_ParentWindow.MAIDevice.Info.SerialNumber.Contains("G06-1044-1")))) {
                     maxSR = 225000;          
             }
             m_bReconfigureLater = true;
