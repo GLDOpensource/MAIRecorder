@@ -32,21 +32,30 @@ namespace MAIRecorder {
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e) {
-            m_ParentWindow.MAIDevice.DAChannels.StopNotificationThread();
-            m_ParentWindow.MAIDevice.StopMeasure();
-            m_ParentWindow.MAIDevice.DAChannels.StopOutput();
-            m_ParentWindow.MAIDevice.ClearAllChannelLists();
+            try {
+                m_ParentWindow.MAIDevice.DAChannels.StopNotificationThread();
+                m_ParentWindow.MAIDevice.StopMeasure();
+                m_ParentWindow.MAIDevice.DAChannels.StopOutput();
+                m_ParentWindow.MAIDevice.ClearAllChannelLists();
 
-            Color tmp = checkBox1.ForeColor;
-            checkBox1.ForeColor = checkBox1.BackColor;
-            checkBox1.BackColor = tmp;
-            foreach (UCFuncGenChan a in flpGenerators.Controls) {
+                Color tmp = checkBox1.ForeColor;
+                checkBox1.ForeColor = checkBox1.BackColor;
+                checkBox1.BackColor = tmp;
+                foreach (UCFuncGenChan a in flpGenerators.Controls) {
 
-                a.ActiveEnabled = !checkBox1.Checked;
+                    a.ActiveEnabled = !checkBox1.Checked;
 
+                }
+                if (checkBox1.Checked)
+                    StartOutout();
             }
-            if (checkBox1.Checked)
-                StartOutout();
+            catch (Exception ex) {
+                m_ParentWindow.MAIDevice.DAChannels.StopNotificationThread();
+                m_ParentWindow.MAIDevice.StopMeasure();
+                m_ParentWindow.MAIDevice.DAChannels.StopOutput();
+                m_ParentWindow.MAIDevice.ClearAllChannelLists();
+                checkBox1.Checked = false;
+            }
         }
 
         private void FormOutputWaveForms_FormClosed(object sender, FormClosedEventArgs e) {
