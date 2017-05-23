@@ -92,9 +92,16 @@ namespace MAIRecorder {
                 m_dtCardProperties.Rows.Add("Frontend ID", m_selected.Info.BasicFrontendID);
                 m_dtCardProperties.Rows.Add("Digital Ext ID", m_selected.Info.BasicDigitalExtensionID);
             }
+            //m_dtCardProperties.TableName = "sd";
+            //m_dtCardProperties.WriteXml("m_dtCardProperties",XmlWriteMode.WriteSchema);
+            // DataTable t = new DataTable();
+            //t.ReadXml("m_dtCardProperties");
+           
+            try {
+                dgvCardProperties.DataSource = m_dtCardProperties;
+            }
+            catch (Exception o) { MessageBox.Show(o.StackTrace); }
             
-
-            dgvCardProperties.DataSource = m_dtCardProperties;
             MAIDeviceImage img = MAIDeviceImage.GetMAIDeviceImagesBySerial(listBox1.SelectedItem.ToString());
             pictureBox1.Image = img.Large;
         //    UpdateAnalogChannels(m_selected);

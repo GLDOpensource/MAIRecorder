@@ -126,9 +126,8 @@
             this.dgvCardProperties.AllowUserToResizeRows = false;
             this.dgvCardProperties.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.dgvCardProperties.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
+            this.dgvCardProperties.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvCardProperties.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.dgvCardProperties.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCardProperties.ColumnHeadersVisible = false;
             this.dgvCardProperties.ContextMenuStrip = this.contextMenuStrip1;
             this.dgvCardProperties.Location = new System.Drawing.Point(15, 184);
@@ -145,19 +144,19 @@
             this.toolStripMenuItem1,
             this.printToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(210, 48);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(210, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(209, 22);
             this.toolStripMenuItem1.Text = "Copy to Clipboard as Text";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.printToolStripMenuItem.Text = "Print ...";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
