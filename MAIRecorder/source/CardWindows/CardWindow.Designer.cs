@@ -336,7 +336,6 @@
             // 
             // panelAD
             // 
-            this.panelAD.AutoSize = true;
             this.panelAD.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panelAD.Controls.Add(this.bIEPE_OFF);
             this.panelAD.Controls.Add(this.bUpdateAD);
@@ -612,7 +611,6 @@
             this.panelCT.ResumeLayout(false);
             this.panelCT.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

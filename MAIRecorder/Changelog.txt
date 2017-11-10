@@ -9,4 +9,5 @@
 1.0.15		14.07.2015  F.Mensing   RemoteDevice fixes;
 1.0.16		11.11.2015  F.Mensing   RemoteDevice fix; SIM MaxSamplerate Fix;
 1.0.17		11.05.2016  F.Mensing   Changed AudioCard CT Param Window;
+1.0.18		10.11.2017  F.Mensing   CardWindow: Maximale initiale Größe bei ADChannel Panel;
 
